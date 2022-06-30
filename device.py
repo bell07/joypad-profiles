@@ -1,0 +1,171 @@
+import importlib
+
+
+class Button:
+    def __init__(self, name, device):
+        self.name = name
+        self.index = None
+        self.device = device
+        self.pointer_name = None
+
+        self.is_slider = False
+        self.axis = None
+        self.axis_number = None
+        self.sign = None
+        self.analog = None
+        self.full = None
+        self.is_rumble = False
+        self.calibrate = 1
+
+    def set_slider(self, slider):
+        self.is_slider = True
+        self.axis = slider.get("axis")
+        self.sign = slider.get("sign")
+        self.analog = slider.get("analog")
+        self.full = slider.get("full")
+        calibrate = slider.get("calibrate")
+        if calibrate is not None:
+            self.calibrate = calibrate
+
+    def get_button_name(self):
+        fixed_value = self.device.map_fixed.get(self.name)
+        if fixed_value is not None:
+            return fixed_value
+
+        return self.name
+
+
+class Device:
+    def __init__(self, device, ButtonClass: Button):
+        self.name = device.get("name")
+        self.keys = {}
+        self.js_number = 0
+
+        self.custom_attr = {}
+
+        self.profile = None
+        self.map = None
+        self.map_fixed = None
+        self.map_formatted = None
+
+        device_map = device.get("device")
+        cfg = importlib.import_module("devices." + device_map)
+
+        if self.name is None:
+            self.name = cfg.JS.name
+
+        if self.name is None:
+            print("ignoring Device without name")
+            return
+        index = 0
+        for button_key in cfg.JS.buttons:
+            button = ButtonClass(button_key, self)
+            button.index = index
+            index = index + 1
+            self.keys[button_key] = button
+
+        axis_numbers = {}
+        axis_number = 0
+        for slider in cfg.JS.slider:
+            button_key = slider["name"]
+            button = ButtonClass(button_key, self)
+            button.set_slider(slider)
+
+            axis = slider["axis"]
+
+            button.axis_number = axis_numbers.get(axis)
+            if button.axis_number is None:
+                axis_numbers[axis] = axis_number
+                button.axis_number = axis_number
+                axis_number = axis_number + 1
+
+            self.keys[button_key] = button
+
+        if hasattr(cfg.JS, "rumble"):
+            for button_key in cfg.JS.rumble:
+                button = ButtonClass(button_key, self)
+                button.is_rumble = True
+                self.keys[button_key] = button
+
+        if hasattr(cfg, "Pointer"):
+            for button_key in cfg.Pointer.buttons:
+                button = ButtonClass(button_key, self)
+                button.pointer_name = cfg.Pointer.name
+                self.keys[button_key] = button
+
+            axis_numbers = {}
+            axis_number = 0
+            for slider in cfg.Pointer.slider:
+                button_key = slider["name"]
+                button = ButtonClass(button_key, self)
+                button.set_slider(slider)
+                button.pointer_name = cfg.Pointer.name
+                axis = slider["axis"]
+
+                button.axis_number = axis_numbers.get(axis)
+                if button.axis_number is None:
+                    axis_numbers[axis] = axis_number
+                    button.axis_number = axis_number
+                    axis_number = axis_number + 1
+                self.keys[button_key] = button
+
+    def get_button(self, key):
+        return self.keys.get(key)
+
+    def apply_profile(self, profile):
+        self.profile = profile
+        self.map = None
+        self.map_fixed = None
+        self.map_formatted = None
+
+        if hasattr(profile, "get_profile_for_device"):
+            profile_data = profile.get_profile_for_device(self)
+            self.map = profile_data.get("map")
+            self.map_fixed = profile_data.get("map_fixed")
+            self.map_formatted = profile_data.get("map_formatted")
+
+        if self.map is None:
+            self.map = profile.Map.copy()
+
+        if self.map_fixed is None:
+            if hasattr(profile, "FixedValues"):
+                self.map_fixed = profile.FixedValues.copy()
+            else:
+                self.map_fixed = {}
+
+        if self.map_formatted is None:
+            if hasattr(profile, "FormattedValues"):
+                self.map_formatted = profile.FormattedValues.copy()
+            else:
+                self.map_formatted = {}
+
+    def get_button_name_formatted(self, key, config_key):
+        formatted = self.map_formatted.get(key)
+        if formatted is not None:
+            fstring = formatted[0]
+            fvalues = []
+            for i in range(1, len(formatted)):
+                fkey = formatted[i]
+                value = self.get_button_name(fkey, config_key)
+                if value is None:
+                    print(f"wrong parameter {fkey} for {key}")
+                    return
+                fvalues.append(value)
+            return fstring.format(*fvalues)
+
+    def get_button_name(self, key: None, config_key: None):
+        button_name = None
+        if key is not None:
+            button_name = self.map_fixed.get(key)
+            if button_name is None:
+                button_name = self.get_button_name_formatted(key, config_key)
+            if button_name is None:
+                button = self.get_button(key)
+                if button is not None:
+                    button_name = button.get_button_name()
+
+        if button_name is None and config_key is not None:
+            button_name = self.map_fixed.get(config_key)
+            if button_name is None:
+                button_name = self.get_button_name_formatted(config_key, config_key)
+        return button_name

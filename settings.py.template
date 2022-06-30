@@ -1,0 +1,13 @@
+class Settings:
+    ## Rebuild all joypad configs in target folder
+    device = "all"
+    install = False
+
+    ## Generate config for GPD-Win 2 gaming device only
+    #device = "gpdwin2"
+    #install = True      # Install the files into games folders
+
+    ## Create own setup for not preconfigured device
+    # device = "xpad"
+    # js_name = "My xpad compatible joypad clone"
+    # install = True     # Install the files into games folders

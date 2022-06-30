@@ -1,0 +1,26 @@
+[Profile]
+Device = evdev/0/GPD Win 2 X-Box Controller
+Buttons/A = WEST | TR | tap(`evdev/0/Goodix Capacitive TouchScreen:TOUCH`,0.5)
+Buttons/B = TL
+Buttons/1 = NORTH
+Buttons/2 = SOUTH
+Buttons/- = SELECT
+Buttons/+ = START
+Buttons/Home = MODE
+IR/Auto-Hide = True
+IR/Up = `Axis 1-` | (`evdev/0/Goodix Capacitive TouchScreen:Axis 0+` * 1.2)
+IR/Down = `Axis 1+` | `evdev/0/Goodix Capacitive TouchScreen:Axis 0-`
+IR/Left = `Axis 0-` | (`evdev/0/Goodix Capacitive TouchScreen:Axis 1-` * 0.75)
+IR/Right = `Axis 0+` | (`evdev/0/Goodix Capacitive TouchScreen:Axis 1+` * 0.75)
+Tilt/Forward = `Full Axis 2+`
+Tilt/Backward = `Full Axis 5+`
+Tilt/Left = `Axis 4+`
+Tilt/Right = `Axis 4-`
+Shake/X = TR
+Shake/Y = TR
+Shake/Z = TR
+Rumble/Motor = Triangle
+D-Pad/Up = `Axis 6-`
+D-Pad/Down = `Axis 6+`
+D-Pad/Left = `Axis 7+`
+D-Pad/Right = `Axis 7-`
