@@ -2,9 +2,9 @@ ProfileName = "GC-Default"
 Type = "GCPad"
 Map = [
     ["Buttons/A", "SOUTH"],
-    ["Buttons/B", "NORTH"],
+    ["Buttons/B", "WEST"],
     ["Buttons/X", "EAST"],
-    ["Buttons/Y", "WEST"],
+    ["Buttons/Y", "NORTH"],
     ["Buttons/Z", "TR"],
     ["Buttons/Start", "START"],
     ["Main Stick/Up", "LS_UP"],

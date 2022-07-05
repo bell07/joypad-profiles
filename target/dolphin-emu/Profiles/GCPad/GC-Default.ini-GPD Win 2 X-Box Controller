@@ -1,9 +1,9 @@
 [Profile]
 Device = evdev/0/GPD Win 2 X-Box Controller
 Buttons/A = SOUTH
-Buttons/B = NORTH
+Buttons/B = WEST
 Buttons/X = EAST
-Buttons/Y = WEST
+Buttons/Y = NORTH
 Buttons/Z = TR
 Buttons/Start = START
 Main Stick/Up = `Axis 1-`

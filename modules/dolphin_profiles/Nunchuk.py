@@ -6,7 +6,7 @@ Type = "Wiimote"
 Map = [
     ["Buttons/A", "SOUTH", "TR", "CLICK_LEFT", "TOUCH"],
     ["Buttons/B", "TR2", "CLICK_RIGHT"],
-    ["Buttons/1", "WEST"],
+    ["Buttons/1", "NORTH"],
     ["Buttons/2", "EAST"],
     ["Buttons/-", "SELECT"],
     ["Buttons/+", "START"],
@@ -24,9 +24,9 @@ Map = [
     ["Tilt/Left", "_FORMAT_TILT_LEFT"],
     ["Tilt/Right", "_FORMAT_TILT_RIGHT"],
 
-    ["Shake/X", "NORTH"],
-    ["Shake/Y", "NORTH"],
-    ["Shake/Z", "NORTH"],
+    ["Shake/X", "WEST"],
+    ["Shake/Y", "WEST"],
+    ["Shake/Z", "WEST"],
 
     ["Extension"],
     ["Nunchuk/Buttons/C", "TL"],

@@ -21,7 +21,7 @@ class Profile:
         ["DPad U", "DPAD_UP"],
         ["Start", "START"],
         ["Z Trig", "TL2"],
-        ["B Button", "NORTH"],
+        ["B Button", "WEST"],
         ["A Button", "SOUTH"],
         ["C Button R", "RS_RIGHT"],
         ["C Button L", "RS_LEFT"],

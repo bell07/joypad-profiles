@@ -1,7 +1,7 @@
 class JS:
     # All keys list, sorted by usual drivers order
     buttons = [
-        "SOUTH", "EAST", "NORTH", "WEST",
+        "SOUTH", "EAST", "WEST", "NORTH",
         "TL", "TR",
         "SELECT", "START", "MODE",
         "THUMBL", "THUMBR",

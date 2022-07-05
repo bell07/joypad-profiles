@@ -4,9 +4,9 @@ Type = "Wiimote"
 # Wiimote only Horizontal profile
 
 Map = [
-    ["Buttons/A", "WEST", "TR", "CLICK_LEFT", "TOUCH"],
+    ["Buttons/A", "NORTH", "TR", "CLICK_LEFT", "TOUCH"],
     ["Buttons/B", "TL", "CLICK_RIGHT"],
-    ["Buttons/1", "NORTH"],
+    ["Buttons/1", "WEST"],
     ["Buttons/2", "SOUTH"],
     ["Buttons/-", "SELECT"],
     ["Buttons/+", "START"],
