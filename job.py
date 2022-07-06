@@ -7,7 +7,10 @@ devices_list = {
     "logitechF700": {
         "name": "Logitech Gamepad F710",
         "device": "xpad"
-    }
+    },
+    "nsw-pro": {
+        "device": "nsw-pro"
+    },
 }
 
 
