@@ -6,7 +6,7 @@ class Button:
         self.name = name
         self.index = None
         self.device = device
-        self.pointer_name = None
+        self.device_name = None
 
         self.is_slider = False
         self.axis = None
@@ -15,6 +15,8 @@ class Button:
         self.analog = None
         self.full = None
         self.is_rumble = False
+        self.is_accelerometer = False
+        self.is_gyroscope = False
         self.calibrate = 1
 
     def set_slider(self, slider):
@@ -47,6 +49,8 @@ class Device:
         self.map = None
         self.map_fixed = None
         self.map_formatted = None
+
+        self.has_imu = False
 
         device_map = device.get("device")
         cfg = importlib.import_module("devices." + device_map)
@@ -90,7 +94,7 @@ class Device:
         if hasattr(cfg, "Pointer"):
             for button_key in cfg.Pointer.buttons:
                 button = ButtonClass(button_key, self)
-                button.pointer_name = cfg.Pointer.name
+                button.device_name = cfg.Pointer.name
                 self.keys[button_key] = button
 
             axis_numbers = {}
@@ -99,7 +103,7 @@ class Device:
                 button_key = slider["name"]
                 button = ButtonClass(button_key, self)
                 button.set_slider(slider)
-                button.pointer_name = cfg.Pointer.name
+                button.device_name = cfg.Pointer.name
                 axis = slider["axis"]
 
                 button.axis_number = axis_numbers.get(axis)
@@ -108,6 +112,26 @@ class Device:
                     button.axis_number = axis_number
                     axis_number = axis_number + 1
                 self.keys[button_key] = button
+
+        if hasattr(cfg, "IMU"):
+            self.has_imu = False
+            if hasattr(cfg.IMU, "Accelerometer"):
+                for acc in cfg.IMU.Accelerometer:
+                    button_key = acc["name"]
+                    button = ButtonClass(button_key, self)
+                    button.set_slider(acc)
+                    button.is_accelerometer = True
+                    button.device_name = cfg.IMU.name
+                    self.keys[button_key] = button
+
+            if hasattr(cfg.IMU, "Gyroscope"):
+                for gyro in cfg.IMU.Gyroscope:
+                    button_key = gyro["name"]
+                    button = ButtonClass(button_key, self)
+                    button.set_slider(gyro)
+                    button.is_gyroscope = True
+                    button.device_name = cfg.IMU.name
+                    self.keys[button_key] = button
 
     def get_button(self, key):
         return self.keys.get(key)

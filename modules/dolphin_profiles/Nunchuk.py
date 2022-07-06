@@ -28,6 +28,21 @@ Map = [
     ["Shake/Y", "WEST"],
     ["Shake/Z", "WEST"],
 
+    ["IMUAccelerometer/Up", "ACCEL_UP"],
+    ["IMUAccelerometer/Down", "ACCEL_DOWN"],
+    ["IMUAccelerometer/Left", "ACCEL_LEFT"],
+    ["IMUAccelerometer/Right", "ACCEL_RIGHT"],
+    ["IMUAccelerometer/Forward", "ACCEL_FORWARD"],
+    ["IMUAccelerometer/Backward", "ACCEL_BACKWARD"],
+    ["IMUGyroscope/Pitch Up", "PITCH_UP"],
+    ["IMUGyroscope/Pitch Down", "PITCH_DOWN"],
+    ["IMUGyroscope/Roll Left", "ROLL_LEFT"],
+    ["IMUGyroscope/Roll Right", "ROLL_RIGHT"],
+    ["IMUGyroscope/Yaw Left", "YAW_LEFT"],
+    ["IMUGyroscope/Yaw Right", "YAW_RIGHT"],
+    ["IMUIR/Enabled"],
+    ["IMUIR/Recenter", "Z"],
+
     ["Extension"],
     ["Nunchuk/Buttons/C", "TL"],
     ["Nunchuk/Buttons/Z", "TL2"],
@@ -53,6 +68,7 @@ Map = [
 FixedValues = {
     "IR/Auto-Hide": "True",
     "Tilt/Angle": "100.00000000000000",
+    "IMUIR/Enabled": "True",
     "Extension": "Nunchuk",
 }
 

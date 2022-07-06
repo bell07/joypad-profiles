@@ -28,10 +28,25 @@ Map = [
     ["D-Pad/Down", "DPAD_RIGHT"],
     ["D-Pad/Left", "DPAD_DOWN"],
     ["D-Pad/Right", "DPAD_UP"],
+
+    ["IMUAccelerometer/Up", "ACCEL_UP"],
+    ["IMUAccelerometer/Down", "ACCEL_DOWN"],
+    ["IMUAccelerometer/Left", "ACCEL_FORWARD"],
+    ["IMUAccelerometer/Right", "ACCEL_BACKWARD"],
+    ["IMUAccelerometer/Forward", "ACCEL_RIGHT"],
+    ["IMUAccelerometer/Backward", "ACCEL_LEFT"],
+    ["IMUGyroscope/Pitch Up", "ROLL_LEFT"],
+    ["IMUGyroscope/Pitch Down", "ROLL_RIGHT"],
+    ["IMUGyroscope/Roll Left", "PITCH_UP"],
+    ["IMUGyroscope/Roll Right", "PITCH_DOWN"],
+    ["IMUGyroscope/Yaw Left", "YAW_LEFT"],
+    ["IMUGyroscope/Yaw Right", "YAW_RIGHT"],
+    ["IMUIR/Enabled"],
 ]
 
 FixedValues = {
     "IR/Auto-Hide": "True",
+    "IMUIR/Enabled": "False",
 }
 
 Games = [

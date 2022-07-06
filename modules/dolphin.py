@@ -26,10 +26,18 @@ VirtualPointer = {
 class DolphinButton(Button):
     def get_button_name(self):
         device = ""
-        if self.pointer_name is not None:
-            device = f"evdev/0/{self.pointer_name}:"
+        if self.device_name is not None:
+            device = f"evdev/0/{self.device_name}:"
 
-        if self.is_slider is True:
+        if self.is_accelerometer is True:
+            slider_name = "Accel " + self.axis + self.sign
+            return f"`{device + slider_name}`"
+
+        elif self.is_gyroscope is True:
+            slider_name = "Gyro " + self.axis + self.sign
+            return f"`{device + slider_name}`"
+
+        elif self.is_slider is True:
             slider_name = "Axis " + str(self.axis_number) + self.sign
             if self.full is True:
                 slider_name = "Full " + slider_name
@@ -128,6 +136,9 @@ class Dolphin:
         if device.get_button("TOUCH") is None:
             for key in VirtualPointer:
                 device.map_fixed[key] = VirtualPointer[key]
+
+        if device.has_imu == False:
+            device.map_fixed["IMUIR/Enabled"] = None
 
         for line in device.map:
             line_copy = line.copy()
