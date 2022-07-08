@@ -1,7 +1,7 @@
 [Profile]
 Device = evdev/0/Nintendo Switch Pro Controller
 Buttons/A = NORTH | TR | `XInput2/0/Virtual core pointer:Click 1`
-Buttons/B = TL | `XInput2/0/Virtual core pointer:Click 2`
+Buttons/B = TL | `XInput2/0/Virtual core pointer:Click 3`
 Buttons/1 = WEST
 Buttons/2 = SOUTH
 Buttons/- = SELECT

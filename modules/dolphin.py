@@ -14,8 +14,8 @@ Rumble = {
 VirtualPointer = {
     # Virtual X pointer
     "CLICK_LEFT": "`XInput2/0/Virtual core pointer:Click 1`",
-    "CLICK_RIGHT": "`XInput2/0/Virtual core pointer:Click 2`",
-    "CLICK_MIDDLE": "`XInput2/0/Virtual core pointer:Click 3`",
+    "CLICK_MIDDLE": "`XInput2/0/Virtual core pointer:Click 2`",
+    "CLICK_RIGHT": "`XInput2/0/Virtual core pointer:Click 3`",
     "POINTER_UP": "`XInput2/0/Virtual core pointer:Cursor Y-`",
     "POINTER_DOWN": "`XInput2/0/Virtual core pointer:Cursor Y+`",
     "POINTER_LEFT": "`XInput2/0/Virtual core pointer:Cursor X-`",
