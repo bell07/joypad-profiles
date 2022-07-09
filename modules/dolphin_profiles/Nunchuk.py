@@ -66,7 +66,7 @@ Map = [
 ]
 
 FixedValues = {
-    "IR/Auto-Hide": "True",
+    "IR/Auto-Hide": "False",
     "Tilt/Angle": "100.00000000000000",
     "IMUIR/Enabled": "True",
     "Extension": "Nunchuk",
