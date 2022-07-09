@@ -17,8 +17,8 @@ Wiimote button | Joypad button
 --- | ---
 Infrared pointer | Left Stick
 D-Pad | D-Pad (Rotated)
-- | SELECT
-+ | START
+\- | SELECT
+\+ | START
 Home | MODE
 Tilt | Right Stick (Rotated)
 Tilt Forward / Backward | TL2 / TR2
@@ -36,8 +36,8 @@ Nunchuk Tilt | Left Stick, Toggled by THUMBL
 Nunchuk C | TL
 Nunchuk Z | TL2
 D-Pad | D-Pad
-- | SELECT
-+ | START
+\- | SELECT
+\+ | START
 Home | MODE
 IR | Right Stick, Toggled by THUMBR
 Tilt | Right Stick, Toggled by THUMBR
