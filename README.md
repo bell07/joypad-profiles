@@ -40,3 +40,5 @@ dolphin | [Nunchuk](profiles/dolphin_profiles/Nunchuk.svg) | RMG Super Mario Gal
 dolphin | Nunchuk | SB4 Super Mario Galaxy 2
 | |
 mupen64plus | [mupen64plus](profiles/mupen64plus.svg) | All games
+
+Key mappings list can be found in [Key mapping overview](profiles/README.md)
