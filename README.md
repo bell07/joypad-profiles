@@ -29,14 +29,14 @@ logitechF700 | Logitech F700 - uses xbox profile. Note, the DirectInput mode is 
 ## Supported Games and emulators
 Emulator | Profile | Supported games
 --- | --- | ---
-dolphin | [GC-Default](modules/dolphin_profiles/GCPad.svg) | All gamecube games
+dolphin | [GC-Default](profiles/dolphin_profiles/GCPad.svg) | All gamecube games
 | |
-dolphin | [Horizontal](modules/dolphin_profiles/Horizontal.svg) | SMN - New Super Mario Bros. Wii
+dolphin | [Horizontal](profiles/dolphin_profiles/Horizontal.svg) | SMN - New Super Mario Bros. Wii
 dolphin | Horizontal | MRR New Super Mario Bros. Retro edition
 dolphin | Horizontal | NSS New Super Mario Bros. Summer Sun Special
 dolphin | Horizontal | R8P Super Paper Mario
 | |
-dolphin | [Nunchuk](modules/dolphin_profiles/Nunchuk.svg) | RMG Super Mario Galaxy
+dolphin | [Nunchuk](profiles/dolphin_profiles/Nunchuk.svg) | RMG Super Mario Galaxy
 dolphin | Nunchuk | SB4 Super Mario Galaxy 2
 | |
-mupen64plus | [mupen64plus](modules/mupen64plus.svg) | All games
+mupen64plus | [mupen64plus](profiles/mupen64plus.svg) | All games

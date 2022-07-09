@@ -2,7 +2,7 @@ import os
 import configparser
 from device import Button, Device
 
-from modules.dolphin_profiles import GCPad, Horizontal, Nunchuk
+from profiles.dolphin_profiles import GCPad, Horizontal, Nunchuk
 
 # Supported rumble types
 Rumble = {

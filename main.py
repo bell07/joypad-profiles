@@ -1,6 +1,6 @@
 from job import Job
-from modules.dolphin import Dolphin
-from modules.mupen64plus import Mupen64
+from profiles.dolphin import Dolphin
+from profiles.mupen64plus import Mupen64
 
 job = Job()
 Dolphin(job).do_dolphin()
