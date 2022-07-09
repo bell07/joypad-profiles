@@ -46,7 +46,6 @@ B | TR2
 1 | NORTH
 2 | EAST
 Shake | WEST
-
 IMU Recenter | Z (Screenshot button on Switch Controller)
 
 ## Nintendo 64 (Mupen64Plus) 
