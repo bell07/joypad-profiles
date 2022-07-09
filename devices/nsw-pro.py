@@ -154,11 +154,11 @@ class IMU:
         {
             "name": "YAW_LEFT",
             "axis": "Z",
-            "sign": "-",
+            "sign": "+",
         },
         {
             "name": "YAW_RIGHT",
             "axis": "Z",
-            "sign": "+",
+            "sign": "-",
         }
     ]
