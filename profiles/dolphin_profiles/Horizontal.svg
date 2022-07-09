@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   sodipodi:docname="XB Horizontal.svg"
-   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
+   sodipodi:docname="Horizontal.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
    id="svg3023"
    height="500.35999"
    width="744.09448"
-   version="1.1">
+   version="1.1"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <sodipodi:namedview
      inkscape:guide-bbox="true"
      showguides="true"
@@ -21,13 +21,13 @@
      inkscape:window-maximized="1"
      inkscape:window-y="0"
      inkscape:window-x="1920"
-     inkscape:cy="235.97379"
-     inkscape:cx="315.16314"
+     inkscape:cy="236.48276"
+     inkscape:cx="314.91621"
      inkscape:zoom="1.2685914"
      showgrid="false"
      id="namedview105"
-     inkscape:window-height="1002"
-     inkscape:window-width="1920"
+     inkscape:window-height="1358"
+     inkscape:window-width="2560"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0"
      guidetolerance="10"
@@ -35,7 +35,8 @@
      objecttolerance="10"
      borderopacity="1"
      bordercolor="#666666"
-     pagecolor="#ffffff" />
+     pagecolor="#ffffff"
+     inkscape:pagecheckerboard="0" />
   <defs
      id="defs3025" />
   <metadata
@@ -593,22 +594,6 @@
        y="372.24066"
        style="stroke-width:0.274226">D-Pad</tspan></text>
   <path
-     id="path1087-9-9-7-9"
-     d="M 720.00346,399.35091 C 470.99853,399.20892 470.74567,399.20892 470.74567,399.20892"
-     style="opacity:1;fill:#000080;stroke:#000080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none" />
-  <text
-     xml:space="preserve"
-     style="font-style:normal;font-weight:normal;font-size:10.969px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.274226"
-     x="642.39423"
-     y="405.85889"
-     id="text1165-4-3-9"
-     transform="scale(1.0296635,0.97119108)"><tspan
-       sodipodi:role="line"
-       id="tspan1163-5-5-7"
-       x="642.39423"
-       y="405.85889"
-       style="stroke-width:0.274226">Tilt  forward</tspan></text>
-  <path
      style="opacity:1;fill:#000080;stroke:#000080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
      d="M 207.5447,91.380024 C 38.298904,90.933518 38.12702,90.933518 38.12702,90.933518"
      id="path1087-3" />
@@ -772,21 +757,21 @@
        id="tspan987"
        sodipodi:role="line" /></text>
   <path
-     style="opacity:1;fill:#000080;stroke:#000080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-     d="M 720.71268,356.00037 C 471.70775,355.85838 471.45489,355.85838 471.45489,355.85838"
+     style="opacity:1;fill:#000080;stroke:#000080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     d="M 722.78999,380.09903 C 473.78506,379.95704 473.5322,379.95704 473.5322,379.95704"
      id="path1087-9-9-7-9-4" />
   <text
      transform="scale(1.0296635,0.97119108)"
      id="text1165-4-3-9-3"
-     y="359.19809"
-     x="632.07385"
+     y="383.73264"
+     x="681.14667"
      style="font-style:normal;font-weight:normal;font-size:10.969px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.274226"
      xml:space="preserve"><tspan
        style="stroke-width:0.274226"
-       y="359.19809"
-       x="632.07385"
-       id="tspan1163-5-5-7-9"
-       sodipodi:role="line">Tilt  backward</tspan></text>
+       y="383.73264"
+       x="681.14667"
+       sodipodi:role="line"
+       id="tspan1671">Tilt </tspan></text>
   <path
      style="opacity:1;fill:#000080;stroke:#000080;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
      d="M 206.09699,124.38867 C 38.521626,123.94211 38.351436,123.94211 38.351436,123.94211"
