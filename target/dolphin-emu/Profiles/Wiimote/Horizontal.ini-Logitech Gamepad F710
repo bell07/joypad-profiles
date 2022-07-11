@@ -1,8 +1,8 @@
 [Profile]
 Device = evdev/0/Logitech Gamepad F710
-Buttons/A = NORTH | TR | `XInput2/0/Virtual core pointer:Click 1`
+Buttons/A = WEST | TR | `XInput2/0/Virtual core pointer:Click 1`
 Buttons/B = TL | `XInput2/0/Virtual core pointer:Click 3`
-Buttons/1 = WEST
+Buttons/1 = NORTH
 Buttons/2 = SOUTH
 Buttons/- = SELECT
 Buttons/+ = START

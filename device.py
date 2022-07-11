@@ -70,6 +70,12 @@ class Device:
             button = ButtonClass(button_key, self)
             button.index = index
             index = index + 1
+
+            if hasattr(cfg.JS, "button_names"):
+                button_name = cfg.JS.button_names.get(button_key)
+                if button_name is not None:
+                    button.name = button_name
+
             self.keys[button_key] = button
 
         axis_numbers = {}

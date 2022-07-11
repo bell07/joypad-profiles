@@ -9,6 +9,12 @@ class JS:
         "THUMBL", "THUMBR",
     ]
 
+    button_names = {
+        # As of kernel-5.18 the NORTH and WEST are swapped in xpad driver
+        "NORTH": "WEST",
+        "WEST": "NORTH"
+    }
+
     # Keys settings.
     slider = [
         {

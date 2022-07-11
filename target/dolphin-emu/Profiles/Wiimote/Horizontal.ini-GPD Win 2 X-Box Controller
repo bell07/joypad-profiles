@@ -1,8 +1,8 @@
 [Profile]
 Device = evdev/0/GPD Win 2 X-Box Controller
-Buttons/A = NORTH | TR | tap(`evdev/0/Goodix Capacitive TouchScreen:TOUCH`,0.5)
+Buttons/A = WEST | TR | tap(`evdev/0/Goodix Capacitive TouchScreen:TOUCH`,0.5)
 Buttons/B = TL
-Buttons/1 = WEST
+Buttons/1 = NORTH
 Buttons/2 = SOUTH
 Buttons/- = SELECT
 Buttons/+ = START
