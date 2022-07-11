@@ -1,7 +1,8 @@
-ProfileName = "Nunchuk"
-Type = "Wiimote"
-
 # Wiimote only Horizontal profile
+
+TargetDir = "dolphin-emu/Profiles/Wiimote"
+InstallDir = '~/.config/dolphin-emu/Profiles/Wiimote'
+TargetFile = "Nunchuk.ini"
 
 Map = [
     ["Buttons/A", "SOUTH", "TR", "CLICK_LEFT", "TOUCH"],

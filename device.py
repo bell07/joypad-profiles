@@ -1,4 +1,5 @@
 import importlib
+import os
 
 
 class Button:
@@ -38,8 +39,9 @@ class Button:
 
 
 class Device:
-    def __init__(self, device, ButtonClass: Button):
+    def __init__(self, device, job, ButtonClass: Button):
         self.name = device.get("name")
+        self.job = job
         self.keys = {}
         self.js_number = 0
 
@@ -49,6 +51,8 @@ class Device:
         self.map = None
         self.map_fixed = None
         self.map_formatted = None
+        self.target_file = None
+        self.target_file_is_new = None
 
         self.has_imu = False
 
@@ -138,9 +142,18 @@ class Device:
 
     def apply_profile(self, profile):
         self.profile = profile
-        self.map = None
-        self.map_fixed = None
-        self.map_formatted = None
+
+        if self.job.install is True:
+            target_dir = os.path.expanduser(profile.InstallDir)
+            self.target_file = os.path.join(target_dir, profile.TargetFile)
+            if os.exists(self.target_file):
+                self.target_file_is_new = False
+            else:
+                self.target_file_is_new = True
+        else:
+            target_dir = os.path.join('target', profile.TargetDir)
+            self.target_file = os.path.join(target_dir, profile.TargetFile) + "-" + self.name
+            self.target_file_is_new = True
 
         if hasattr(profile, "get_profile_for_device"):
             profile_data = profile.get_profile_for_device(self)
@@ -162,6 +175,9 @@ class Device:
                 self.map_formatted = profile.FormattedValues.copy()
             else:
                 self.map_formatted = {}
+
+        if not os.path.isdir(target_dir):
+            os.mkdir(target_dir)
 
     def get_button_name_formatted(self, key, config_key):
         formatted = self.map_formatted.get(key)

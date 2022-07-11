@@ -64,29 +64,13 @@ class Dolphin:
     def __init__(self, job):
         self.job = job
         if job.install is True:
-            # Target dirs for current user
-            self.DOLPHIN_PATH = os.path.expanduser('~/.config/dolphin-emu')
-            self.PROFILES_PATH = os.path.join(self.DOLPHIN_PATH, "Profiles")
+            # Default settings and Game settings target dir
+            self.DEFCONFIG_PATH = os.path.expanduser('~/.config/dolphin-emu')
             self.GAME_SETTINGS = os.path.expanduser("~/.local/share/dolphin-emu/GameSettings")
         else:
-            # Current dir
-            self.DOLPHIN_PATH = os.path.join('target', 'dolphin-emu')
-            self.PROFILES_PATH = os.path.join(self.DOLPHIN_PATH, "Profiles")
-            self.GAME_SETTINGS = os.path.join(self.DOLPHIN_PATH, "GameSettings")
-
-        if not os.path.isdir(self.DOLPHIN_PATH):
-            print(self.DOLPHIN_PATH + " not found. Skip dolphin configuration")
-            # TODO error handling
-        if not os.path.isdir(self.PROFILES_PATH):
-            os.mkdir(self.PROFILES_PATH)
-
-        wiimote_path = os.path.join(self.PROFILES_PATH, "Wiimote")
-        if not os.path.isdir(wiimote_path):
-            os.mkdir(wiimote_path)
-
-        gcpad_path = os.path.join(self.PROFILES_PATH, "GCPad")
-        if not os.path.isdir(gcpad_path):
-            os.mkdir(gcpad_path)
+            # GameSettings in target folder
+            self.DEFCONFIG_PATH = None
+            self.GAME_SETTINGS = os.path.join("target", "dolphin-emu", "GameSettings")
 
         if not os.path.isdir(self.GAME_SETTINGS):
             os.mkdir(self.GAME_SETTINGS)
@@ -121,6 +105,7 @@ class Dolphin:
 
     @staticmethod
     def adjust_rumble(device, map_fixed):
+        rumble_name = None
         for rumble in Rumble:
             if device.get_button(rumble):
                 rumble_name = Rumble.get(rumble)
@@ -137,7 +122,7 @@ class Dolphin:
             for key in VirtualPointer:
                 device.map_fixed[key] = VirtualPointer[key]
 
-        if device.has_imu == False:
+        if device.has_imu is False:
             device.map_fixed["IMUIR/Enabled"] = None
 
         for line in device.map:
@@ -151,15 +136,12 @@ class Dolphin:
 
         return data
 
-    def do_config(self, device, profile):
+    def do_config(self, device_info, profile):
+        device = Device(device_info, self.job, DolphinButton)
         file_content = self.get_profile(device, profile)
 
-        if self.job.install is True:
-            file_name = os.path.join(self.PROFILES_PATH, profile.Type, profile.ProfileName + ".ini")
-        else:
-            file_name = os.path.join(self.PROFILES_PATH, profile.Type, profile.ProfileName + ".ini-" + device.name)
-        print("Write " + file_name)
-        f = open(file_name, "w")
+        print("Write " + device.target_file)
+        f = open(device.target_file, "w")
         f.write("[Profile]" + "\n" + file_content)
         f.close()
 
@@ -175,9 +157,10 @@ class Dolphin:
                     game_config.add_section("Controls")
                 section = game_config["Controls"]
 
-                section["WiimoteProfile1"] = profile.ProfileName
+                target_profile = profile.TargetFile[0:-4]
+                section["WiimoteProfile1"] = target_profile
                 with open(game_config_file, 'w') as configfile:
-                    print(f"update {game_config_file} for {profile.ProfileName}")
+                    print(f"update {game_config_file} for {target_profile}")
                     game_config.write(configfile)
 
         return file_content  # Return to concatenate into default config
@@ -187,31 +170,28 @@ class Dolphin:
         def_wii = ""
 
         for device_info in self.job.devices:
-            device = Device(device_info, DolphinButton)
-
             #  Do GameCube config for the Seat
-            file_content = self.do_config(device, GCPad)
+            file_content = self.do_config(device_info, GCPad)
             def_gc = def_gc + "[GCPad1]" + "\n" + file_content + "\n"
-            self.do_config(device, GCPad)
 
-            #  Do WII horizontal
-            file_content = self.do_config(device, Horizontal)
-            def_wii = def_wii + "[Wiimote1]" + "\n" + file_content + "\n"
-
-            # Do WII with Nunchuk
-            self.do_config(device, Nunchuk)
-
-            if self.job.install is True:
+            if self.DEFCONFIG_PATH is not None:
                 #  Write default GC config
-                file_name = os.path.join(self.DOLPHIN_PATH, "GCPadNew.ini")
+                file_name = os.path.join(self.DEFCONFIG_PATH, "GCPadNew.ini")
                 print("Write " + file_name)
                 f = open(file_name, "w")
                 f.write(def_gc)
                 f.close()
 
+            #  Do WII horizontal
+            file_content = self.do_config(device_info, Horizontal)
+            def_wii = def_wii + "[Wiimote1]" + "\n" + file_content + "\n"
+            if self.DEFCONFIG_PATH is not None:
                 #  Write default Wiimote config
-                file_name = os.path.join(self.DOLPHIN_PATH, "WiimoteNew.ini")
+                file_name = os.path.join(self.DEFCONFIG_PATH, "WiimoteNew.ini")
                 print("Write " + file_name)
                 f = open(file_name, "w")
                 f.write(def_wii)
                 f.close()
+
+            # Do WII with Nunchuk
+            self.do_config(device_info, Nunchuk)

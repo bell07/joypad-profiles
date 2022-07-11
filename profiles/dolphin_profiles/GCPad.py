@@ -1,5 +1,9 @@
-ProfileName = "GC-Default"
-Type = "GCPad"
+# Gamecube profile
+
+TargetDir = "dolphin-emu/Profiles/GCPad"
+InstallDir = '~/.config/dolphin-emu/Profiles/GCPad'
+TargetFile = "GC-Default.ini"
+
 Map = [
     ["Buttons/A", "SOUTH"],
     ["Buttons/B", "WEST"],

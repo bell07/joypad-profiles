@@ -1,9 +1,14 @@
+# Mupen64 N64 profile
+
 import configparser
-import os
 from device import Button, Device
 
 
 class Profile:
+    TargetDir = "mupen64plus"
+    InstallDir = "~/.config/mupen64plus"
+    TargetFile = "mupen64plus.cfg"
+
     Map = [
         ["version", "_NOUPDATE_"],
         ["mode"],
@@ -48,11 +53,10 @@ class Profile:
 
     @staticmethod
     def get_profile_for_device(device):
-        new_config = device.custom_attr.get("new_config")
         ret_map = []
         for line in Profile.Map:
             if len(line) > 1 and line[1] == "_NOUPDATE_":
-                if new_config == True:
+                if device.target_file_is_new is True:
                     ret_map.append([line[0]])
                 continue
             ret_map.append(line)
@@ -99,38 +103,21 @@ class MupenButton(Button):
 class Mupen64:
     def __init__(self, job):
         self.job = job
-        if job.install is True:
-            self.config_dir = os.path.expanduser("~/.config/mupen64plus")
-        else:
-            self.config_dir = os.path.join('target', 'mupen64plus')
-
-        if not os.path.isdir(self.config_dir):
-            os.mkdir(self.config_dir)
 
     def do_mupen64(self):
         for device_info in self.job.devices:
-            device = Device(device_info, MupenButton)
-
-            if len(self.job.devices) > 1:
-                self.config_file = os.path.join(self.config_dir, "mupen64plus.cfg-" + device.name)
-            else:
-                self.config_file = os.path.join(self.config_dir, "mupen64plus.cfg")
+            device = Device(device_info, self.job, MupenButton)
+            device.apply_profile(Profile)
 
             # Read current file, check the input section version
             config = configparser.ConfigParser(allow_no_value=True)
             config.optionxform = str
-            config.read(self.config_file)
+            config.read(device.target_file)
 
             mupen64plus_config_section_name = "Input-SDL-Control1"  # Only 1 player supported
-            new_config = False
             if not config.has_section(mupen64plus_config_section_name):
                 config.add_section(mupen64plus_config_section_name)
-                new_config = True
             section = config[mupen64plus_config_section_name]
-
-            device = Device(device_info, MupenButton)
-            device.custom_attr["new_config"] = new_config
-            device.apply_profile(Profile)
 
             for line in device.map:
                 config_key = line[0]
@@ -143,6 +130,6 @@ class Mupen64:
                     section[config_key] = parsed
 
             # Save file
-            with open(self.config_file, 'w') as configfile:
-                print(f"update config file {self.config_file}")
+            with open(device.target_file, 'w') as configfile:
+                print(f"update config file {device.target_file}")
                 config.write(configfile)

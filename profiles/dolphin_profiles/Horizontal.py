@@ -1,7 +1,7 @@
-ProfileName = "Horizontal"
-Type = "Wiimote"
-
 # Wiimote only Horizontal profile
+TargetDir = "dolphin-emu/Profiles/Wiimote"
+InstallDir = '~/.config/dolphin-emu/Profiles/Wiimote'
+TargetFile = "Horizontal.ini"
 
 Map = [
     ["Buttons/A", "NORTH", "TR", "CLICK_LEFT", "TOUCH"],
