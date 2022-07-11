@@ -152,7 +152,7 @@ class Device:
         if self.job.install is True:
             target_dir = os.path.expanduser(profile.InstallDir)
             self.target_file = os.path.join(target_dir, profile.TargetFile)
-            if os.exists(self.target_file):
+            if os.path.exists(self.target_file):
                 self.target_file_is_new = False
             else:
                 self.target_file_is_new = True
