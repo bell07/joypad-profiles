@@ -46,7 +46,7 @@ B | TR2
 1 | NORTH
 2 | EAST
 Shake | WEST
-IMU Recenter | Z (Screenshot button on Switch Controller)
+IMU Recenter | RECORD
 
 ## Nintendo 64 (Mupen64Plus) 
 Nintendo 64 button | Joypad button

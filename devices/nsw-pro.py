@@ -4,10 +4,14 @@ class JS:
     # All keys list, sorted by usual drivers order
     buttons = [
         "SOUTH", "EAST", "NORTH", "WEST",
-        "Z", "TL", "TR", "TL2", "TR2",
+        "RECORD", "TL", "TR", "TL2", "TR2",
         "SELECT", "START", "MODE",
         "THUMBL", "THUMBR",
     ]
+
+    button_names = {
+        "RECORD": "Z",
+    }
 
     # Keys settings.
     slider = [
