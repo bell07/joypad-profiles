@@ -24,3 +24,4 @@ D-Pad/Up = `Axis 6-`
 D-Pad/Down = `Axis 6+`
 D-Pad/Left = `Axis 7+`
 D-Pad/Right = `Axis 7-`
+IMUIR/Enabled = False

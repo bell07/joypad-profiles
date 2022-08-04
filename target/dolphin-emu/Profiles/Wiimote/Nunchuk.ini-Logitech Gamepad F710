@@ -20,6 +20,7 @@ Tilt/Right = (toggle(THUMBR) & `Axis 3+`)
 Shake/X = NORTH
 Shake/Y = NORTH
 Shake/Z = NORTH
+IMUIR/Enabled = False
 Extension = Nunchuk
 Nunchuk/Buttons/C = TL
 Nunchuk/Buttons/Z = `Full Axis 2+`

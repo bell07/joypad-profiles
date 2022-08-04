@@ -123,7 +123,7 @@ class Dolphin:
                 device.map_fixed[key] = VirtualPointer[key]
 
         if device.has_imu is False:
-            device.map_fixed["IMUIR/Enabled"] = None
+            device.map_fixed["IMUIR/Enabled"] = "False"
 
         for line in device.map:
             line_copy = line.copy()

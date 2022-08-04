@@ -124,7 +124,7 @@ class Device:
                 self.keys[button_key] = button
 
         if hasattr(cfg, "IMU"):
-            self.has_imu = False
+            self.has_imu = True
             if hasattr(cfg.IMU, "Accelerometer"):
                 for acc in cfg.IMU.Accelerometer:
                     button_key = acc["name"]

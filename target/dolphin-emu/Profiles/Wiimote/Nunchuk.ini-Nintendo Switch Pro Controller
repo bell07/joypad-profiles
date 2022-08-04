@@ -32,6 +32,7 @@ IMUGyroscope/Roll Left = `evdev/0/Nintendo Switch Pro Controller IMU:Gyro X-`
 IMUGyroscope/Roll Right = `evdev/0/Nintendo Switch Pro Controller IMU:Gyro X+`
 IMUGyroscope/Yaw Left = `evdev/0/Nintendo Switch Pro Controller IMU:Gyro Z+`
 IMUGyroscope/Yaw Right = `evdev/0/Nintendo Switch Pro Controller IMU:Gyro Z-`
+IMUIR/Enabled = True
 IMUIR/Recenter = Z
 Extension = Nunchuk
 Nunchuk/Buttons/C = TL
