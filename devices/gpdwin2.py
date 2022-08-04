@@ -124,14 +124,12 @@ class Pointer:
             "axis": "ABS_X",
             "sign": "+",
             "analog": True,
-            "calibrate": 1.20
         },
         {
             "name": "TOUCH_DOWN",
             "axis": "ABS_X",
             "sign": "-",
             "analog": True,
-            "calibrate": 1
         },
         {
             "name": "TOUCH_LEFT",
