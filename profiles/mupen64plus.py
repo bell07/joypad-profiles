@@ -65,33 +65,24 @@ class Profile:
         map_fixed["device"] = device.js_number
         map_fixed["name"] = '"' + device.name + '"'
 
-        left = device.get_button("DPAD_LEFT")
-        right = device.get_button("DPAD_RIGHT")
-        map_fixed["X Axis"] = '"' + "axis(" + str(left.hat) + left.sign + "," + str(right.hat) + right.sign + ")" + '"'
+        left = device.get_button("LS_LEFT")
+        right = device.get_button("LS_RIGHT")
+        map_fixed["X Axis"] = '"' + "axis(" + str(left.axis_number) + left.sign + "," + str(right.axis_number) + right.sign + ")" + '"'
 
-        up = device.get_button("DPAD_UP")
-        down = device.get_button("DPAD_DOWN")
-        map_fixed["Y Axis"] = '"' + "axis(" + str(up.hat) + up.sign + "," + str(down.hat) + down.sign + ")" + '"'
+        up = device.get_button("LS_UP")
+        down = device.get_button("LS_DOWN")
+        map_fixed["Y Axis"] = '"' + "axis(" + str(up.axis_number) + up.sign + "," + str(down.axis_number) + down.sign + ")" + '"'
 
         return {"map": ret_map, "map_fixed": map_fixed}
-
-
-HatMap = {
-    "DPAD_RIGHT": 0,
-    "DPAD_LEFT": 0,
-    "DPAD_DOWN": 1,
-    "DPAD_UP": 1,
-}
 
 
 class MupenButton(Button):
     def __init__(self, name, device):
         super().__init__(name, device)
-        self.hat = HatMap.get(name)
 
     def get_button_name(self):
         if self.is_slider is True:
-            if self.hat is not None:
+            if self.name[0:4] == "DPAD" is not None:
                 return '"hat(' + str(self.device.js_number) + " " \
                        + self.name[5:6].upper() + self.name[6:].lower() + ')"'
             else:
