@@ -82,9 +82,8 @@ class MupenButton(Button):
 
     def get_button_name(self):
         if self.is_slider is True:
-            if self.name[0:4] == "DPAD" is not None:
-                return '"hat(' + str(self.device.js_number) + " " \
-                       + self.name[5:6].upper() + self.name[6:].lower() + ')"'
+            if self.name[0:4] == "DPAD":
+                return '"hat(0 ' + self.name[5:6].upper() + self.name[6:].lower() + ')"'
             else:
                 return '"axis(' + str(self.axis_number) + self.sign + ')"'
         else:
