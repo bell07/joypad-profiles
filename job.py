@@ -11,6 +11,9 @@ devices_list = {
     "nsw-pro": {
         "device": "nsw-pro"
     },
+    "nsw-joycons": {
+        "device": "nsw-joycons"
+    },
 }
 
 

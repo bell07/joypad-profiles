@@ -1,5 +1,5 @@
 class JS:
-    name = "Nintendo Switch Pro Controller"
+    name = "Nintendo Switch Combined Joy-Cons"
 
     # All keys list, sorted by usual drivers order
     buttons = [
@@ -7,6 +7,7 @@ class JS:
         "RECORD", "TL", "TR", "TL2", "TR2",
         "SELECT", "START", "MODE",
         "THUMBL", "THUMBR",
+        "DPAD_UP", "DPAD_DOWN", "DPAD_LEFT", "DPAD_RIGHT"
     ]
 
     button_names = {
@@ -63,30 +64,6 @@ class JS:
             "sign": "+",
             "analog": True,
         },
-        {
-            "name": "DPAD_LEFT",
-            "axis": "HAT0X",
-            "sign": "-",
-            "analog": False,
-        },
-        {
-            "name": "DPAD_RIGHT",
-            "axis": "HAT0X",
-            "sign": "+",
-            "analog": False,
-        },
-        {
-            "name": "DPAD_UP",
-            "axis": "HAT0Y",
-            "sign": "-",
-            "analog": False,
-        },
-        {
-            "name": "DPAD_DOWN",
-            "axis": "HAT0Y",
-            "sign": "+",
-            "analog": False,
-        }
     ]
 
     rumble = [
@@ -99,36 +76,36 @@ class JS:
     ]
 
 
-class IMU:
-    name = "Nintendo Switch Pro Controller IMU"
+class L_IMU:
+    name = "Nintendo Switch Left Joy-Con IMU"
     Accelerometer = [
         {
-            "name": "ACCEL_UP",
+            "name": "L_ACCEL_UP",
             "axis": "Z",
             "sign": "+",
         },
         {
-            "name": "ACCEL_DOWN",
+            "name": "L_ACCEL_DOWN",
             "axis": "Z",
             "sign": "-",
         },
         {
-            "name": "ACCEL_LEFT",
+            "name": "L_ACCEL_LEFT",
             "axis": "Y",
             "sign": "+",
         },
         {
-            "name": "ACCEL_RIGHT",
+            "name": "L_ACCEL_RIGHT",
             "axis": "Y",
             "sign": "-",
         },
         {
-            "name": "ACCEL_FORWARD",
+            "name": "L_ACCEL_FORWARD",
             "axis": "X",
             "sign": "+",
         },
         {
-            "name": "ACCEL_BACKWARD",
+            "name": "L_ACCEL_BACKWARD",
             "axis": "X",
             "sign": "-",
         }
@@ -136,32 +113,100 @@ class IMU:
 
     Gyroscope = [
         {
-            "name": "PITCH_UP",
+            "name": "L_PITCH_UP",
             "axis": "Y",
             "sign": "-",
         },
         {
-            "name": "PITCH_DOWN",
+            "name": "L_PITCH_DOWN",
             "axis": "Y",
             "sign": "+",
         },
         {
-            "name": "ROLL_LEFT",
+            "name": "L_ROLL_LEFT",
             "axis": "X",
             "sign": "-",
         },
         {
-            "name": "ROLL_RIGHT",
+            "name": "L_ROLL_RIGHT",
             "axis": "X",
             "sign": "+",
         },
         {
-            "name": "YAW_LEFT",
+            "name": "L_YAW_LEFT",
             "axis": "Z",
             "sign": "+",
         },
         {
-            "name": "YAW_RIGHT",
+            "name": "L_YAW_RIGHT",
+            "axis": "Z",
+            "sign": "-",
+        }
+    ]
+
+class R_IMU:
+    name = "Nintendo Switch Right Joy-Con IMU"
+    Accelerometer = [
+        {
+            "name": "R_ACCEL_UP",
+            "axis": "Z",
+            "sign": "+",
+        },
+        {
+            "name": "R_ACCEL_DOWN",
+            "axis": "Z",
+            "sign": "-",
+        },
+        {
+            "name": "R_ACCEL_LEFT",
+            "axis": "Y",
+            "sign": "+",
+        },
+        {
+            "name": "R_ACCEL_RIGHT",
+            "axis": "Y",
+            "sign": "-",
+        },
+        {
+            "name": "R_ACCEL_FORWARD",
+            "axis": "X",
+            "sign": "+",
+        },
+        {
+            "name": "R_ACCEL_BACKWARD",
+            "axis": "X",
+            "sign": "-",
+        }
+    ]
+
+    Gyroscope = [
+        {
+            "name": "R_PITCH_UP",
+            "axis": "Y",
+            "sign": "-",
+        },
+        {
+            "name": "R_PITCH_DOWN",
+            "axis": "Y",
+            "sign": "+",
+        },
+        {
+            "name": "R_ROLL_LEFT",
+            "axis": "X",
+            "sign": "-",
+        },
+        {
+            "name": "R_ROLL_RIGHT",
+            "axis": "X",
+            "sign": "+",
+        },
+        {
+            "name": "R_YAW_LEFT",
+            "axis": "Z",
+            "sign": "+",
+        },
+        {
+            "name": "R_YAW_RIGHT",
             "axis": "Z",
             "sign": "-",
         }
