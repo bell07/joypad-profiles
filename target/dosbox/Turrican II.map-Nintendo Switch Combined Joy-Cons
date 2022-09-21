@@ -1,3 +1,4 @@
+hand_mute "key 65 mod1" 
 hand_capmouse "key 67 mod1" 
 hand_shutdown "key 66 mod1" 
 hand_fullscr "key 40 mod2" 
@@ -11,6 +12,7 @@ hand_scrshot "key 62 mod1"
 hand_video "key 64 mod1" 
 hand_decfskip 
 hand_incfskip 
+hand_reloadshad "key 59 mod1" 
 hand_cycledown "key 68 mod1" 
 hand_cycleup "key 69 mod1" 
 hand_caprawopl 

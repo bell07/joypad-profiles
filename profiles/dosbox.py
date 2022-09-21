@@ -70,7 +70,7 @@ class Dosbox:
         print("Write " + device.target_file)
         sf, tf = None, None
         if variant == "dosbox":
-            sf = open(os.path.join(os.path.dirname(__file__), "dosbox_profiles", "mapper-doxbox-sdl2-0.78.1.map"))
+            sf = open(os.path.join(os.path.dirname(__file__), "dosbox_profiles", "mapper-dosbox-sdl2-0.78.1.map"))
             tf = open(device.target_file, 'w')
         elif variant == "dosbox-x":
             sf = open(os.path.join(os.path.dirname(__file__), "dosbox_profiles", "mapper-dosbox-x-sdl2-2022.08.0.map"))

@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 from job import Job
 from profiles.dolphin import Dolphin
 from profiles.dosbox import Dosbox
