@@ -16,7 +16,9 @@ All xbox controller pictures are derivative work (added labels) of
 - use the provided files in "target" folder
 - or:
 - copy settings.py.template to settings.py and adjust settings, enable install parameter
-- run the `python main.py`
+- run the `python main.py module profile`
+  - `python main.py all all` generates all supported files
+
 
 ## Supported Devices
 
@@ -31,7 +33,7 @@ logitechF700 | Logitech F700 - uses xbox profile. Note, the DirectInput mode is 
 
 ## Supported Games and emulators
 
-Emulator | Profile | Supported games
+Module | Profile | Supported games
 --- | --- | ---
 dolphin | [GC-Default](profiles/dolphin_profiles/GCPad.svg) | All gamecube games
 | |

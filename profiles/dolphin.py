@@ -165,33 +165,41 @@ class Dolphin:
 
         return file_content  # Return to concatenate into default config
 
-    def do_dolphin(self):
+    def do_dolphin(self, profile_name):
+
+        if profile_name == "help":
+            print("Possible dolphin parameter: all, GCPad, Horizontal, Nunchuk")
+            exit
+
         def_gc = ""
         def_wii = ""
 
         for device_info in self.job.devices:
-            #  Do GameCube config for the Seat
-            file_content = self.do_config(device_info, GCPad)
-            def_gc = def_gc + "[GCPad1]" + "\n" + file_content + "\n"
+            if profile_name == "GCPad" or profile_name == "all":
+                #  Do GameCube config for the Seat
+                file_content = self.do_config(device_info, GCPad)
+                def_gc = def_gc + "[GCPad1]" + "\n" + file_content + "\n"
 
-            if self.DEFCONFIG_PATH is not None:
-                #  Write default GC config
-                file_name = os.path.join(self.DEFCONFIG_PATH, "GCPadNew.ini")
-                print("Write " + file_name)
-                f = open(file_name, "w")
-                f.write(def_gc)
-                f.close()
+                if self.DEFCONFIG_PATH is not None:
+                    #  Write default GC config
+                    file_name = os.path.join(self.DEFCONFIG_PATH, "GCPadNew.ini")
+                    print("Write " + file_name)
+                    f = open(file_name, "w")
+                    f.write(def_gc)
+                    f.close()
 
             #  Do WII horizontal
-            file_content = self.do_config(device_info, Horizontal)
-            def_wii = def_wii + "[Wiimote1]" + "\n" + file_content + "\n"
-            if self.DEFCONFIG_PATH is not None:
-                #  Write default Wiimote config
-                file_name = os.path.join(self.DEFCONFIG_PATH, "WiimoteNew.ini")
-                print("Write " + file_name)
-                f = open(file_name, "w")
-                f.write(def_wii)
-                f.close()
+            if profile_name == "Horizontal" or profile_name == "all":
+                file_content = self.do_config(device_info, Horizontal)
+                def_wii = def_wii + "[Wiimote1]" + "\n" + file_content + "\n"
+                if self.DEFCONFIG_PATH is not None:
+                    #  Write default Wiimote config
+                    file_name = os.path.join(self.DEFCONFIG_PATH, "WiimoteNew.ini")
+                    print("Write " + file_name)
+                    f = open(file_name, "w")
+                    f.write(def_wii)
+                    f.close()
 
             # Do WII with Nunchuk
-            self.do_config(device_info, Nunchuk)
+            if profile_name == "Nunchuk" or profile_name == "all":
+                self.do_config(device_info, Nunchuk)

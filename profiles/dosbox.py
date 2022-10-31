@@ -98,13 +98,20 @@ class Dosbox:
         sf.close()
         tf.close()
 
-    def do_dosbox(self):
+    def do_dosbox(self, profile_name):
+        if profile_name == "help":
+            print("Possible dosbox parameter: all, digger, tombraider, turrican2")
+            exit
+
         for device_info in self.job.devices:
-            self.do_config(device_info, digger, "dosbox")
-            self.do_config(device_info, digger, "dosbox-x")
+            if profile_name == "digger" or profile_name == "all":
+                self.do_config(device_info, digger, "dosbox")
+                self.do_config(device_info, digger, "dosbox-x")
 
-            self.do_config(device_info, tombraider, "dosbox")
-            self.do_config(device_info, tombraider, "dosbox-x")
+            if profile_name == "tombraider" or profile_name == "all":
+                self.do_config(device_info, tombraider, "dosbox")
+                self.do_config(device_info, tombraider, "dosbox-x")
 
-            self.do_config(device_info, turrican2, "dosbox")
-            self.do_config(device_info, turrican2, "dosbox-x")
+            if profile_name == "turrican2" or profile_name == "all":
+                self.do_config(device_info, turrican2, "dosbox")
+                self.do_config(device_info, turrican2, "dosbox-x")
