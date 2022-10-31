@@ -8,6 +8,8 @@ class Settings:
     #install = True      # Install the files into games folders
 
     ## Create own setup for not preconfigured device
-    # device = "xpad"
-    # js_name = "My xpad compatible joypad clone"
+    # device = devices mapping file
+    # device_name = udev/evdev device name
+    # name = Setup configuration name. If not set, device_name is used
+
     # install = True     # Install the files into games folders

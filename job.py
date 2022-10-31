@@ -5,7 +5,7 @@ devices_list = {
         "device": "gpdwin2"
     },
     "logitechF700": {
-        "name": "Logitech Gamepad F710",
+        "device_name": "Logitech Gamepad F710",
         "device": "xpad"
     },
     "nsw-pro": {
@@ -32,4 +32,8 @@ class Job:
 
             if hasattr(Settings, "name"):
                 device["name"] = Settings.get("name")
+
+            if hasattr(Settings, "device_name"):
+                device["device_name"] = Settings.get("device_name")
+
             self.devices.append(device)

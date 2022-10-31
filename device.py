@@ -41,6 +41,7 @@ class Button:
 class Device:
     def __init__(self, device, job, ButtonClass: Button):
         self.name = device.get("name")
+        self.device_name = device.get("device_name")
         self.job = job
         self.keys = {}
         self.js_number = 0
@@ -61,8 +62,11 @@ class Device:
         device_map = device.get("device")
         cfg = importlib.import_module("devices." + device_map)
 
+        if self.device_name is None:
+            self.device_name = cfg.JS.name
+
         if self.name is None:
-            self.name = cfg.JS.name
+            self.name = self.device_name
 
         if self.name is None:
             print("ignoring Device without name")

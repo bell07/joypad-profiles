@@ -113,7 +113,7 @@ class Dolphin:
         map_fixed["Rumble/Motor"] = rumble_name
 
     def get_profile(self, device, profile):
-        data = "Device = " + "evdev/" + str(device.js_number) + "/" + device.name + "\n"
+        data = "Device = " + "evdev/" + str(device.js_number) + "/" + device.device_name + "\n"
 
         device.apply_profile(profile)
         self.adjust_rumble(device, device.map_fixed)
