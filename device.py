@@ -8,6 +8,7 @@ class Button:
         self.index = None
         self.device = device
         self.device_name = None
+        self.device_type = None
 
         self.is_slider = False
         self.axis = None
@@ -37,6 +38,12 @@ class Button:
 
         return self.name
 
+    def set_parent_data(self, parent):
+        if hasattr(parent, "name"):
+            self.device_name = parent.name
+        if hasattr(parent, "type"):
+            self.device_type = parent.type
+
 
 class Device:
     def __init__(self, device, job, ButtonClass: Button):
@@ -62,8 +69,35 @@ class Device:
         device_map = device.get("device")
         cfg = importlib.import_module("devices." + device_map)
 
+        Joypad, Pointer = None, None
+        IMU, L_IMU, R_IMU = None, None, None
+        if hasattr(cfg, "JS"):
+            Joypad = cfg.JS
+
+        if hasattr(cfg, "Pointer"):
+            Pointer = cfg.Pointer
+
+        if hasattr(cfg, "IMU"):
+            IMU = cfg.IMU
+
+        if device.get("IMU"):
+            IMU_cfg = importlib.import_module("devices." + device["IMU"])
+            IMU = IMU_cfg.IMU
+
+            if device.get("IMU_name"):
+                IMU.name = device["IMU_name"]
+
+        if hasattr(cfg, "IMU_name"):
+            IMU.name = cfg.IMU_name
+
+        if hasattr(cfg, "L_IMU"):
+            L_IMU = cfg.L_IMU
+
+        if hasattr(cfg, "R_IMU"):
+            R_IMU = cfg.R_IMU
+
         if self.device_name is None:
-            self.device_name = cfg.JS.name
+            self.device_name = Joypad.name
 
         if self.name is None:
             self.name = self.device_name
@@ -72,13 +106,13 @@ class Device:
             print("ignoring Device without name")
             return
         index = 0
-        for button_key in cfg.JS.buttons:
+        for button_key in Joypad.buttons:
             button = ButtonClass(button_key, self)
             button.index = index
             index = index + 1
 
-            if hasattr(cfg.JS, "button_names"):
-                button_name = cfg.JS.button_names.get(button_key)
+            if hasattr(Joypad, "button_names"):
+                button_name = Joypad.button_names.get(button_key)
                 if button_name is not None:
                     button.name = button_name
 
@@ -86,7 +120,7 @@ class Device:
 
         axis_numbers = {}
         axis_number = 0
-        for slider in cfg.JS.slider:
+        for slider in Joypad.slider:
             button_key = slider["name"]
             button = ButtonClass(button_key, self)
             button.set_slider(slider)
@@ -101,25 +135,25 @@ class Device:
 
             self.keys[button_key] = button
 
-        if hasattr(cfg.JS, "rumble"):
-            for button_key in cfg.JS.rumble:
+        if hasattr(Joypad, "rumble"):
+            for button_key in Joypad.rumble:
                 button = ButtonClass(button_key, self)
                 button.is_rumble = True
                 self.keys[button_key] = button
 
-        if hasattr(cfg, "Pointer"):
-            for button_key in cfg.Pointer.buttons:
+        if Pointer is not None:
+            for button_key in Pointer.buttons:
                 button = ButtonClass(button_key, self)
-                button.device_name = cfg.Pointer.name
+                button.set_parent_data(Pointer)
                 self.keys[button_key] = button
 
             axis_numbers = {}
             axis_number = 0
-            for slider in cfg.Pointer.slider:
+            for slider in Pointer.slider:
                 button_key = slider["name"]
                 button = ButtonClass(button_key, self)
                 button.set_slider(slider)
-                button.device_name = cfg.Pointer.name
+                button.set_parent_data(Pointer)
                 axis = slider["axis"]
 
                 button.axis_number = axis_numbers.get(axis)
@@ -129,64 +163,64 @@ class Device:
                     axis_number = axis_number + 1
                 self.keys[button_key] = button
 
-        if hasattr(cfg, "IMU"):
+        if IMU is not None:
             self.has_imu = True
-            if hasattr(cfg.IMU, "Accelerometer"):
-                for acc in cfg.IMU.Accelerometer:
+            if hasattr(IMU, "Accelerometer"):
+                for acc in IMU.Accelerometer:
                     button_key = acc["name"]
                     button = ButtonClass(button_key, self)
                     button.set_slider(acc)
+                    button.set_parent_data(IMU)
                     button.is_accelerometer = True
-                    button.device_name = cfg.IMU.name
                     self.keys[button_key] = button
 
-            if hasattr(cfg.IMU, "Gyroscope"):
-                for gyro in cfg.IMU.Gyroscope:
+            if hasattr(IMU, "Gyroscope"):
+                for gyro in IMU.Gyroscope:
                     button_key = gyro["name"]
                     button = ButtonClass(button_key, self)
                     button.set_slider(gyro)
+                    button.set_parent_data(IMU)
                     button.is_gyroscope = True
-                    button.device_name = cfg.IMU.name
                     self.keys[button_key] = button
 
-        if hasattr(cfg, "L_IMU"):
+        if L_IMU is not None:
             self.has_l_imu = True
-            if hasattr(cfg.L_IMU, "Accelerometer"):
-                for acc in cfg.L_IMU.Accelerometer:
+            if hasattr(L_IMU, "Accelerometer"):
+                for acc in L_IMU.Accelerometer:
                     button_key = acc["name"]
                     button = ButtonClass(button_key, self)
                     button.set_slider(acc)
+                    button.set_parent_data(L_IMU)
                     button.is_accelerometer = True
-                    button.device_name = cfg.L_IMU.name
                     self.keys[button_key] = button
 
-            if hasattr(cfg.L_IMU, "Gyroscope"):
-                for gyro in cfg.L_IMU.Gyroscope:
+            if hasattr(L_IMU, "Gyroscope"):
+                for gyro in L_IMU.Gyroscope:
                     button_key = gyro["name"]
                     button = ButtonClass(button_key, self)
                     button.set_slider(gyro)
+                    button.set_parent_data(L_IMU)
                     button.is_gyroscope = True
-                    button.device_name = cfg.L_IMU.name
                     self.keys[button_key] = button
 
-        if hasattr(cfg, "R_IMU"):
+        if R_IMU is not None:
             self.has_r_imu = True
-            if hasattr(cfg.R_IMU, "Accelerometer"):
-                for acc in cfg.R_IMU.Accelerometer:
+            if hasattr(R_IMU, "Accelerometer"):
+                for acc in R_IMU.Accelerometer:
                     button_key = acc["name"]
                     button = ButtonClass(button_key, self)
                     button.set_slider(acc)
+                    button.set_parent_data(R_IMU)
                     button.is_accelerometer = True
-                    button.device_name = cfg.R_IMU.name
                     self.keys[button_key] = button
 
-            if hasattr(cfg.R_IMU, "Gyroscope"):
-                for gyro in cfg.R_IMU.Gyroscope:
+            if hasattr(R_IMU, "Gyroscope"):
+                for gyro in R_IMU.Gyroscope:
                     button_key = gyro["name"]
                     button = ButtonClass(button_key, self)
                     button.set_slider(gyro)
+                    button.set_parent_data(R_IMU)
                     button.is_gyroscope = True
-                    button.device_name = cfg.R_IMU.name
                     self.keys[button_key] = button
 
     def get_button(self, key):

@@ -11,5 +11,7 @@ class Settings:
     # device = devices mapping file
     # device_name = udev/evdev device name
     # name = Setup configuration name. If not set, device_name is used
+    # IMU = Enable additional IMU. Currently supported "cemuhook" only
+    # IMU_name = IMU Device name (cemuhook server name)
 
     # install = True     # Install the files into games folders

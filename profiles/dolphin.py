@@ -26,8 +26,15 @@ VirtualPointer = {
 class DolphinButton(Button):
     def get_button_name(self):
         device = ""
+        device_type = "evdev"
+        device_name = "default"
+        if self.device_type is not None:
+            device_type = self.device_type
         if self.device_name is not None:
-            device = f"evdev/0/{self.device_name}:"
+            device_name = self.device_name
+
+        if self.device_type is not None or self.device_name is not None:
+            device = f"{device_type}/0/{device_name}:"
 
         if self.is_accelerometer is True:
             slider_name = "Accel " + self.axis + self.sign

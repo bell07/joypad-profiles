@@ -36,4 +36,7 @@ class Job:
             if hasattr(Settings, "device_name"):
                 device["device_name"] = Settings.get("device_name")
 
+            if hasattr(Settings, "IMU"):
+                device["IMU"] = Settings.get("IMU")
+
             self.devices.append(device)
