@@ -28,13 +28,20 @@ class DolphinButton(Button):
         device = ""
         device_type = "evdev"
         device_name = "default"
+
         if self.device_type is not None:
             device_type = self.device_type
+
         if self.device_name is not None:
             device_name = self.device_name
 
         if self.device_type is not None or self.device_name is not None:
             device = f"{device_type}/0/{device_name}:"
+
+        if device_type == "DSUClient":
+            if self.device.custom_attr.get(f"DSUConf:{device_name}") is None:
+                print(f'Please configure DSU Client "{device_name}" in Dolphin settings')
+                self.device.custom_attr[f"DSUConf:{device_name}"] = True
 
         if self.is_accelerometer is True:
             slider_name = "Accel " + self.axis + self.sign
