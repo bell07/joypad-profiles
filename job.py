@@ -19,6 +19,14 @@ seat_list = {
     "nsw-joycons": {
         "device": "nsw-joycons"
     },
+    "scc-steamdeck": {
+        "name": "SCC SteamDeck",
+        "devices": {
+            "xpad": "Microsoft X-Box 360 pad",
+            "touch_16_10": "FTS3528:00 2808:1015",
+            "cemuhook": "SC-Controller"
+        }
+    }
 }
 
 

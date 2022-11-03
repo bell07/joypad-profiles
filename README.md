@@ -29,6 +29,7 @@ gpdwin2 | GPD Win 2 handheld gaming device, including touchscreen. The keys are 
 logitechF700 | Logitech F700 - uses xbox profile. Note, the DirectInput mode is not supported with the joypad-profiles
 nsw-joycons | Nintendo Switch combined joycons
 nsw-pro | Nintendo Switch Pro Controller, including IMU configuration
+scc-steamdeck | Steam Deck input using sc-controller and profiles, provided in scc-steamdeck module
 [xpad](devices/xpad.svg) | Virtual for all xbox compatible devices. Needs "name" parameter in settings.py file
 
 ## Supported Games and emulators
