@@ -8,7 +8,7 @@ from profiles.mupen64plus import Mupen64
 import sys
 
 module = "help"
-submodule = ""
+profile = ""
 if len(sys.argv) > 1:
     module = sys.argv[1]
 if len(sys.argv) > 2:
