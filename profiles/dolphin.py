@@ -1,6 +1,6 @@
 import os
 import configparser
-from device import Button, Device
+from button import Button
 
 from profiles.dolphin_profiles import GCPad, Horizontal, Nunchuk
 
@@ -27,21 +27,16 @@ class DolphinButton(Button):
     def get_button_name(self):
         device = ""
         device_type = "evdev"
-        device_name = "default"
 
-        if self.device_type is not None:
-            device_type = self.device_type
-
-        if self.device_name is not None:
-            device_name = self.device_name
-
-        if self.device_type is not None or self.device_name is not None:
-            device = f"{device_type}/0/{device_name}:"
+        if self.device.name != self.device.seat.primary_device.name:
+            if self.device.type is not None:
+                device_type = self.device.type
+            device = f"{device_type}/0/{self.device.name}:"
 
         if device_type == "DSUClient":
-            if self.device.custom_attr.get(f"DSUConf:{device_name}") is None:
-                print(f'Please configure DSU Client "{device_name}" in Dolphin settings')
-                self.device.custom_attr[f"DSUConf:{device_name}"] = True
+            if self.device.custom_attr.get(f"DSUConf:{self.device.name}") is None:
+                print(f'Please configure DSU Client "{self.device.name}" in Dolphin settings')
+                self.device.custom_attr[f"DSUConf:{self.device.name}"] = True
 
         if self.is_accelerometer is True:
             slider_name = "Accel " + self.axis + self.sign
@@ -89,19 +84,19 @@ class Dolphin:
         if not os.path.isdir(self.GAME_SETTINGS):
             os.mkdir(self.GAME_SETTINGS)
 
-    def get_parsed_value(self, device, config_key, param):
+    def get_parsed_value(self, seat, config_key, param):
         #  Button string to be mapped
         if param is None:
-            key_name = device.get_button_name(param, config_key)
+            key_name = seat.get_button_name(param, config_key)
             if key_name is None:
-                print(f"Device {device.name} does not map {config_key}")
+                print(f"Device {seat.seat_name} does not map {config_key}")
             else:
                 return key_name
 
         elif type(param) == str:
-            key_name = device.get_button_name(param, config_key)
+            key_name = seat.get_button_name(param, config_key)
             if key_name is None:
-                print(f"Device {device.name} does not know {param}")
+                print(f"Device {seat.seat_name} does not know {param}")
             else:
                 return key_name
 
@@ -109,7 +104,7 @@ class Dolphin:
         elif type(param) == list:
             parsed_data = None
             for button_key in param:
-                parsed_element = self.get_parsed_value(device, config_key, button_key)
+                parsed_element = self.get_parsed_value(seat, config_key, button_key)
                 if parsed_element is not None:
                     if parsed_data is None:
                         parsed_data = parsed_element
@@ -118,44 +113,46 @@ class Dolphin:
             return parsed_data
 
     @staticmethod
-    def adjust_rumble(device, map_fixed):
+    def adjust_rumble(seat, map_fixed):
         rumble_name = None
         for rumble in Rumble:
-            if device.get_button(rumble):
+            if seat.keys.get(rumble):
                 rumble_name = Rumble.get(rumble)
                 break
         map_fixed["Rumble/Motor"] = rumble_name
 
-    def get_profile(self, device, profile):
-        data = "Device = " + "evdev/" + str(device.js_number) + "/" + device.device_name + "\n"
+    def get_profile(self, seat, profile):
+        data = "Device = " + "evdev/" + str(seat.primary_device.js_number) + "/" + seat.primary_device.name + "\n"
 
-        device.apply_profile(profile)
-        self.adjust_rumble(device, device.map_fixed)
+        self.adjust_rumble(seat, seat.map_fixed)
 
-        if device.get_button("TOUCH") is None:
+        if seat.keys.get("TOUCH") is None:
             for key in VirtualPointer:
-                device.map_fixed[key] = VirtualPointer[key]
+                seat.map_fixed[key] = VirtualPointer[key]
 
-        if device.has_imu is False and device.has_l_imu is False and device.has_r_imu is False:
-            device.map_fixed["IMUIR/Enabled"] = "False"
+        if seat.keys.get("ACCEL_UP") is not None or seat.keys.get("L_ACCEL_UP") is not None \
+                or seat.keys.get("R_ACCEL_UP") is not None:
+            pass
+        else:
+            seat.map_fixed["IMUIR/Enabled"] = "False"
 
-        for line in device.map:
+        for line in seat.map:
             line_copy = line.copy()
             config_key = line_copy.pop(0)
             if len(line_copy) == 0:
                 line_copy = None
-            parsed_value = self.get_parsed_value(device, config_key, line_copy)
+            parsed_value = self.get_parsed_value(seat, config_key, line_copy)
             if parsed_value is not None:
                 data = data + config_key + " = " + parsed_value + "\n"
 
         return data
 
-    def do_config(self, device_info, profile):
-        device = Device(device_info, self.job, DolphinButton)
-        file_content = self.get_profile(device, profile)
+    def do_config(self, seat, profile):
+        seat.apply_profile(profile, DolphinButton)
+        file_content = self.get_profile(seat, profile)
 
-        print("Write " + device.target_file)
-        f = open(device.target_file, "w")
+        print("Write " + seat.target_file)
+        f = open(seat.target_file, "w")
         f.write("[Profile]" + "\n" + file_content)
         f.close()
 
@@ -188,10 +185,10 @@ class Dolphin:
         def_gc = ""
         def_wii = ""
 
-        for device_info in self.job.devices:
+        for seat in self.job.seats:
             if profile_name == "GCPad" or profile_name == "all":
                 #  Do GameCube config for the Seat
-                file_content = self.do_config(device_info, GCPad)
+                file_content = self.do_config(seat, GCPad)
                 def_gc = def_gc + "[GCPad1]" + "\n" + file_content + "\n"
 
                 if self.DEFCONFIG_PATH is not None:
@@ -204,7 +201,7 @@ class Dolphin:
 
             #  Do WII horizontal
             if profile_name == "Horizontal" or profile_name == "all":
-                file_content = self.do_config(device_info, Horizontal)
+                file_content = self.do_config(seat, Horizontal)
                 def_wii = def_wii + "[Wiimote1]" + "\n" + file_content + "\n"
                 if self.DEFCONFIG_PATH is not None:
                     #  Write default Wiimote config
@@ -216,4 +213,4 @@ class Dolphin:
 
             # Do WII with Nunchuk
             if profile_name == "Nunchuk" or profile_name == "all":
-                self.do_config(device_info, Nunchuk)
+                self.do_config(seat, Nunchuk)

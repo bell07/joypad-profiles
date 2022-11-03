@@ -31,8 +31,8 @@ Map = [
 ]
 
 
-def get_profile_for_device(device):
-    tl2 = device.get_button("TL2")
+def get_profile_for_seat(seat):
+    tl2 = seat.keys.get("TL2")
 
     return_map = []
     #  set trigger depending if analog slider or just a button

@@ -1,5 +1,6 @@
 import os
-from device import Button, Device
+from button import Button
+
 from profiles.dosbox_profiles import \
     digger, \
     tombraider, \
@@ -50,12 +51,12 @@ class Dosbox:
         self.job = job
 
     @staticmethod
-    def get_parsed_value(device, config_key, param):
+    def get_parsed_value(seat, config_key, param):
         parsed_data = None
         for button_key in param:
-            parsed_element = device.get_button_name(button_key, config_key)
+            parsed_element = seat.get_button_name(button_key, config_key)
             if parsed_element is None:
-                print(f"Device {device.name} does not know {param}")
+                print(f"Device {seat.seat_name} does not know {param}")
 
             if parsed_element is not None:
                 if parsed_data is None:
@@ -64,23 +65,23 @@ class Dosbox:
                     parsed_data = parsed_data + ' ' + parsed_element
         return parsed_data
 
-    def do_config(self, device_info, profile, variant):
-        device = Device(device_info, self.job, DosboxButton)
-        device.apply_profile(DosboxProfile(profile, variant))
-        print("Write " + device.target_file)
+    def do_config(self, seat, profile, variant):
+        seat.apply_profile(DosboxProfile(profile, variant), DosboxButton)
+
+        print("Write " + seat.target_file)
         sf, tf = None, None
         if variant == "dosbox":
             sf = open(os.path.join(os.path.dirname(__file__), "dosbox_profiles", "mapper-dosbox-sdl2-0.78.1.map"))
-            tf = open(device.target_file, 'w')
+            tf = open(seat.target_file, 'w')
         elif variant == "dosbox-x":
             sf = open(os.path.join(os.path.dirname(__file__), "dosbox_profiles", "mapper-dosbox-x-sdl2-2022.08.0.map"))
-            tf = open(device.target_file, 'w')
+            tf = open(seat.target_file, 'w')
 
         map_dct = {}
-        for map_line in device.map:
+        for map_line in seat.map:
             line_copy = map_line.copy()
             config_key = line_copy.pop(0)
-            parsed_value = self.get_parsed_value(device, config_key, line_copy)
+            parsed_value = self.get_parsed_value(seat, config_key, line_copy)
             map_dct[config_key] = parsed_value
 
         for line in sf.readlines():
@@ -103,15 +104,15 @@ class Dosbox:
             print("Possible dosbox parameter: all, digger, tombraider, turrican2")
             exit
 
-        for device_info in self.job.devices:
+        for seat in self.job.seats:
             if profile_name == "digger" or profile_name == "all":
-                self.do_config(device_info, digger, "dosbox")
-                self.do_config(device_info, digger, "dosbox-x")
+                self.do_config(seat, digger, "dosbox")
+                self.do_config(seat, digger, "dosbox-x")
 
             if profile_name == "tombraider" or profile_name == "all":
-                self.do_config(device_info, tombraider, "dosbox")
-                self.do_config(device_info, tombraider, "dosbox-x")
+                self.do_config(seat, tombraider, "dosbox")
+                self.do_config(seat, tombraider, "dosbox-x")
 
             if profile_name == "turrican2" or profile_name == "all":
-                self.do_config(device_info, turrican2, "dosbox")
-                self.do_config(device_info, turrican2, "dosbox-x")
+                self.do_config(seat, turrican2, "dosbox")
+                self.do_config(seat, turrican2, "dosbox-x")

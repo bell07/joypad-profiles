@@ -26,10 +26,10 @@ Device | Description
 --- | ---
 all | Just generate settings for all devices. Used to fill the target folder
 gpdwin2 | GPD Win 2 handheld gaming device, including touchscreen. The keys are like xpad profile with next differences: TL2/TR2 are not analog. THUMBL/THUMBR are placed at LT3/LR3
+logitechF700 | Logitech F700 - uses xbox profile. Note, the DirectInput mode is not supported with the joypad-profiles
 nsw-joycons | Nintendo Switch combined joycons
 nsw-pro | Nintendo Switch Pro Controller, including IMU configuration
 [xpad](devices/xpad.svg) | Virtual for all xbox compatible devices. Needs "name" parameter in settings.py file
-logitechF700 | Logitech F700 - uses xbox profile. Note, the DirectInput mode is not supported with the joypad-profiles
 
 ## Supported Games and emulators
 

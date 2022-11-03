@@ -1,7 +1,7 @@
 # Mupen64 N64 profile
 
 import configparser
-from device import Button, Device
+from button import Button
 
 
 class Profile:
@@ -52,26 +52,26 @@ class Profile:
     }
 
     @staticmethod
-    def get_profile_for_device(device):
+    def get_profile_for_seat(seat):
         ret_map = []
         for line in Profile.Map:
             if len(line) > 1 and line[1] == "_NOUPDATE_":
-                if device.target_file_is_new is True:
+                if seat.target_file_is_new is True:
                     ret_map.append([line[0]])
                 continue
             ret_map.append(line)
 
         map_fixed = Profile.FixedValues.copy()
-        map_fixed["device"] = device.js_number
-        map_fixed["name"] = '"' + device.name + '"'
+        map_fixed["device"] = seat.primary_device.js_number
+        map_fixed["name"] = '"' + seat.primary_device.name + '"'
 
-        left = device.get_button("LS_LEFT")
-        right = device.get_button("LS_RIGHT")
-        map_fixed["X Axis"] = '"' + "axis(" + str(left.axis_number) + left.sign + "," + str(right.axis_number) + right.sign + ")" + '"'
+        left = seat.keys.get("LS_LEFT")
+        right = seat.keys.get("LS_RIGHT")
+        map_fixed["X Axis"] = f'"axis({str(left.axis_number)}{left.sign},{str(right.axis_number)}{right.sign})"'
 
-        up = device.get_button("LS_UP")
-        down = device.get_button("LS_DOWN")
-        map_fixed["Y Axis"] = '"' + "axis(" + str(up.axis_number) + up.sign + "," + str(down.axis_number) + down.sign + ")" + '"'
+        up = seat.keys.get("LS_UP")
+        down = seat.keys.get("LS_DOWN")
+        map_fixed["Y Axis"] = f'"axis({str(up.axis_number)}{up.sign},{str(down.axis_number)}{down.sign})"'
 
         return {"map": ret_map, "map_fixed": map_fixed}
 
@@ -95,31 +95,30 @@ class Mupen64:
         self.job = job
 
     def do_mupen64(self):
-        for device_info in self.job.devices:
-            device = Device(device_info, self.job, MupenButton)
-            device.apply_profile(Profile)
+        for seat in self.job.seats:
+            seat.apply_profile(Profile, MupenButton)
 
             # Read current file, check the input section version
             config = configparser.ConfigParser(allow_no_value=True)
             config.optionxform = str
-            config.read(device.target_file)
+            config.read(seat.target_file)
 
             mupen64plus_config_section_name = "Input-SDL-Control1"  # Only 1 player supported
             if not config.has_section(mupen64plus_config_section_name):
                 config.add_section(mupen64plus_config_section_name)
             section = config[mupen64plus_config_section_name]
 
-            for line in device.map:
+            for line in seat.map:
                 config_key = line[0]
                 key = None
                 if len(line) > 1:
                     key = line[1]
 
-                parsed = device.get_button_name(key, config_key)
+                parsed = seat.get_button_name(key, config_key)
                 if parsed is not None:
                     section[config_key] = parsed
 
             # Save file
-            with open(device.target_file, 'w') as configfile:
-                print(f"update config file {device.target_file}")
+            with open(seat.target_file, 'w') as configfile:
+                print(f"update config file {seat.target_file}")
                 config.write(configfile)

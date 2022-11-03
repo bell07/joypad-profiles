@@ -1,17 +1,17 @@
 class Settings:
-    ## Rebuild all joypad configs in target folder
-    device = "all"
+    ## Rebuild all seat configs in target folder
+    seat = "all"
     install = False
 
-    ## Generate config for GPD-Win 2 gaming device only
-    #device = "gpdwin2"
+    ## Generate config for "Logitech Gamepad F710" gaming device only
+    #seat = "logitechF700"
     #install = True      # Install the files into games folders
 
     ## Create own setup for not preconfigured device
+    # name = Configuration name
+    # seat = seat name only, as hard-coded in job.py
     # device = devices mapping file
     # device_name = udev/evdev device name
-    # name = Setup configuration name. If not set, device_name is used
-    # IMU = Enable additional IMU. Currently supported "cemuhook" only
-    # IMU_name = IMU Device name (cemuhook server name)
+    # devices = { device: device_name, ... } Multi device setup
 
     # install = True     # Install the files into games folders
