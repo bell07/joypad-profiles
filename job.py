@@ -3,7 +3,10 @@ from settings import Settings
 
 seat_list = {
     "gpdwin2": {
-        "device": "gpdwin2"
+        "devices": {
+            "xpad_digital_trigger": "GPD Win 2 X-Box Controller",
+            "touch_16_9": "Goodix Capacitive TouchScreen",
+        }
     },
     "logitechF700": {
         "devices": {

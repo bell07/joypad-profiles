@@ -2,7 +2,6 @@ class Devices:
     devices = {
         "gpdwin2": {
             "device_type": "joypad",
-            "name": "GPD Win 2 X-Box Controller",
 
             # All keys list, sorted by usual drivers order
             "buttons": [
@@ -117,39 +116,4 @@ class Devices:
                 "GAIN"
             ],
         },
-
-        "gpdwin2-touch": {
-            "device_type": "touchscreen",
-            "name": "Goodix Capacitive TouchScreen",
-            "buttons": ["TOUCH"],
-
-            "slider": [
-                {
-                    "name": "TOUCH_UP",
-                    "axis": "ABS_X",
-                    "sign": "+",
-                    "analog": True,
-                },
-                {
-                    "name": "TOUCH_DOWN",
-                    "axis": "ABS_X",
-                    "sign": "-",
-                    "analog": True,
-                },
-                {
-                    "name": "TOUCH_LEFT",
-                    "axis": "ABS_Y",
-                    "sign": "-",
-                    "analog": True,
-                    "calibrate": 0.75
-                },
-                {
-                    "name": "TOUCH_RIGHT",
-                    "axis": "ABS_Y",
-                    "sign": "+",
-                    "analog": True,
-                    "calibrate": 0.75
-                },
-            ],
-        }
     }
