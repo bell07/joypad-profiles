@@ -1,6 +1,6 @@
 class Devices:
     devices = {
-        "gpdwin2-touch": {
+        "touch_16_9": {
             "device_type": "touchscreen",
             "buttons": ["TOUCH"],
             "slider": [

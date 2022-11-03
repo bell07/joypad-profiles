@@ -29,14 +29,9 @@ class DolphinButton(Button):
         device_type = "evdev"
 
         if self.device.name != self.device.seat.primary_device.name:
-            if self.device.type is not None:
-                device_type = self.device.type
+            if self.device.type == "DSUClient":
+                device_type = "DSUClient"
             device = f"{device_type}/0/{self.device.name}:"
-
-        if device_type == "DSUClient":
-            if self.device.custom_attr.get(f"DSUConf:{self.device.name}") is None:
-                print(f'Please configure DSU Client "{self.device.name}" in Dolphin settings')
-                self.device.custom_attr[f"DSUConf:{self.device.name}"] = True
 
         if self.is_accelerometer is True:
             slider_name = "Accel " + self.axis + self.sign
@@ -214,3 +209,7 @@ class Dolphin:
             # Do WII with Nunchuk
             if profile_name == "Nunchuk" or profile_name == "all":
                 self.do_config(seat, Nunchuk)
+
+            for device in seat.devices:
+                if device.type == "DSUClient":
+                    print(f'>>> Please configure DSU Client "{device.name}" in Dolphin settings')

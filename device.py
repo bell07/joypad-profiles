@@ -3,7 +3,7 @@ class Device:
         self.definition = definition
         self.seat = seat
         self.name = device_name
-        self.type = None
+        self.type = definition.get("device_type")
 
         if self.name is None:
             self.name = definition.get("name")

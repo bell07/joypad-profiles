@@ -29,7 +29,7 @@ class Job:
 
         device_key = seat_info.get("device")
         if device_key is not None:
-            seat.add_device(device_key, seat)
+            seat.add_device(device_key, seat, name)
 
         multi_device = seat_info.get("devices")
         if multi_device is not None:
