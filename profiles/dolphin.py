@@ -22,6 +22,21 @@ VirtualPointer = {
     "POINTER_RIGHT": "`XInput2/0/Virtual core pointer:Cursor X+`",
 }
 
+DSUClientNames = {
+    "ACCEL_UP": "Accel Up",
+    "ACCEL_DOWN": "Accel Down",
+    "ACCEL_FORWARD": "Accel Forward",
+    "ACCEL_BACKWARD": "Accel Backward",
+    "ACCEL_LEFT": "Accel Left",
+    "ACCEL_RIGHT": "Accel Right",
+    "ROLL_LEFT": "Gyro Roll Left",
+    "ROLL_RIGHT": "Gyro Roll Right",
+    "PITCH_UP": "Gyro Pitch Up",
+    "PITCH_DOWN": "Gyro Pitch Down",
+    "YAW_LEFT": "Gyro Yaw Left",
+    "YAW_RIGHT": "Gyro Yaw Right",
+}
+
 
 class DolphinButton(Button):
     def get_button_name(self):
@@ -33,19 +48,26 @@ class DolphinButton(Button):
                 device_type = "DSUClient"
             device = f"{device_type}/0/{self.device.name}:"
 
+        if self.device.type == "DSUClient":
+            slider_name = DSUClientNames.get(self.name)
+            if slider_name is None:
+                return
+            else:
+                return f"`{device}{slider_name}`"
+
         if self.is_accelerometer is True:
             slider_name = "Accel " + self.axis + self.sign
-            return f"`{device + slider_name}`"
+            return f"`{device}{slider_name}`"
 
         elif self.is_gyroscope is True:
             slider_name = "Gyro " + self.axis + self.sign
-            return f"`{device + slider_name}`"
+            return f"`{device}{slider_name}`"
 
         elif self.is_slider is True:
             slider_name = "Axis " + str(self.axis_number) + self.sign
             if self.full is True:
                 slider_name = "Full " + slider_name
-            slider_name = f"`{device + slider_name}`"
+            slider_name = f"`{device}{slider_name}`"
             if self.calibrate != 1:
                 slider_name = f"({slider_name} * {str(self.calibrate)})"
             return slider_name
