@@ -138,7 +138,7 @@ class Dolphin:
                 break
         map_fixed["Rumble/Motor"] = rumble_name
 
-    def get_profile(self, seat, profile):
+    def get_profile(self, seat):
         data = "Device = " + "evdev/" + str(seat.primary_device.js_number) + "/" + seat.primary_device.name + "\n"
 
         self.adjust_rumble(seat, seat.map_fixed)
@@ -149,8 +149,12 @@ class Dolphin:
 
         if seat.keys.get("ACCEL_UP") is not None or seat.keys.get("L_ACCEL_UP") is not None \
                 or seat.keys.get("R_ACCEL_UP") is not None:
+            # If Touchscreen available, the device is a handheald. IMUIR emulation is designed for joypad + TV
+            if seat.keys.get("TOUCH"):
+                seat.map_fixed["IMUIR/Enabled"] = "False"
             pass
         else:
+            # No Gyro available for IMUIR emulation
             seat.map_fixed["IMUIR/Enabled"] = "False"
 
         for line in seat.map:
@@ -166,7 +170,7 @@ class Dolphin:
 
     def do_config(self, seat, profile):
         seat.apply_profile(profile, DolphinButton)
-        file_content = self.get_profile(seat, profile)
+        file_content = self.get_profile(seat)
 
         print("Write " + seat.target_file)
         f = open(seat.target_file, "w")
@@ -197,7 +201,7 @@ class Dolphin:
 
         if profile_name == "help":
             print("Possible dolphin parameter: all, GCPad, Horizontal, Nunchuk")
-            exit
+            return
 
         def_gc = ""
         def_wii = ""
