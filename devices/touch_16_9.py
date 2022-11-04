@@ -21,14 +21,14 @@ class Devices:
                     "axis": "ABS_Y",
                     "sign": "-",
                     "analog": True,
-                    "calibrate": 0.75
+                    "calibrate": 0.75  # 4:3 => 16:9  ( 3/4 * 0.75 = 9/16 )
                 },
                 {
                     "name": "TOUCH_RIGHT",
                     "axis": "ABS_Y",
                     "sign": "+",
                     "analog": True,
-                    "calibrate": 0.75
+                    "calibrate": 0.75  # 4:3 => 16:9  ( 3/4 * 0.75 = 9/16 )
                 }
             ]
         }
