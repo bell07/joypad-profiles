@@ -9,26 +9,28 @@ class Devices:
                     "axis": "ABS_X",
                     "sign": "+",
                     "analog": True,
+                    "calibrate": 1.1111
                 },
                 {
                     "name": "TOUCH_DOWN",
                     "axis": "ABS_X",
                     "sign": "-",
                     "analog": True,
+                    "calibrate": 1.1111
                 },
                 {
                     "name": "TOUCH_LEFT",
                     "axis": "ABS_Y",
                     "sign": "-",
                     "analog": True,
-                    "calibrate": 0.8333
+                    "calibrate": 0.75
                 },
                 {
                     "name": "TOUCH_RIGHT",
                     "axis": "ABS_Y",
                     "sign": "+",
                     "analog": True,
-                    "calibrate": 0.8333
+                    "calibrate": 0.75
                 }
             ]
         }
