@@ -55,4 +55,6 @@ Games = [
     "NSS",  # New Super Mario Bros. Summer Sun Special
 
     "R8P",  # Super Paper Mario
+
+    "SUK",  # Kirby Adventure WII
 ]
