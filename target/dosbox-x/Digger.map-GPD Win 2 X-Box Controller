@@ -15,6 +15,11 @@ hand_gui "key 6 host"
 hand_mapper "key 16 host" 
 hand_fullscr "key 9 host" 
 hand_resetsize "key 42 host" 
+hand_dbcssbcs 
+hand_autoboxdraw 
+hand_incsize "key 82 host" 
+hand_decsize "key 81 host" 
+hand_resetcolor 
 hand_pwrbutton 
 hand_togmenu "key 41 host" 
 hand_speedlock "key 79 host" 
@@ -42,7 +47,7 @@ hand_volup "key 87 host"
 hand_voldown "key 86 host" 
 hand_recvolup 
 hand_recvoldown 
-hand_sendkey_ma "key 76 host" 
+hand_sendkey_mapper "key 76 host" 
 hand_cycauto 
 hand_cycledown "key 45 host" 
 hand_cycleup "key 46 host" 

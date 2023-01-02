@@ -71,10 +71,10 @@ class Dosbox:
         print("Write " + seat.target_file)
         sf, tf = None, None
         if variant == "dosbox":
-            sf = open(os.path.join(os.path.dirname(__file__), "dosbox_profiles", "mapper-dosbox-sdl2-0.78.1.map"))
+            sf = open(os.path.join(os.path.dirname(__file__), "dosbox_profiles", "mapper-dosbox-sdl2-0.80.0-alpha.map"))
             tf = open(seat.target_file, 'w')
         elif variant == "dosbox-x":
-            sf = open(os.path.join(os.path.dirname(__file__), "dosbox_profiles", "mapper-dosbox-x-sdl2-2022.08.0.map"))
+            sf = open(os.path.join(os.path.dirname(__file__), "dosbox_profiles", "mapper-dosbox-x-sdl2-2022.12.26.map"))
             tf = open(seat.target_file, 'w')
 
         map_dct = {}
