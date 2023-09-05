@@ -41,8 +41,10 @@ hand_recwave "key 26 host"
 hand_recmtwave 
 hand_caprawmidi 
 hand_caprawopl 
+hand_capnetrf 
 hand_video "key 12 host" 
 hand_scrshot "key 19 host" 
+hand_rawscrshot "key 19 mod1 host" 
 hand_volup "key 87 host" 
 hand_voldown "key 86 host" 
 hand_recvolup 
@@ -158,7 +160,8 @@ key_up "stick_0 hat 0 1" "key 82"
 key_left "stick_0 hat 0 8" "key 80" 
 key_down "stick_0 hat 0 4" "key 81" 
 key_right "stick_0 hat 0 2" "key 79" 
-key_kp_equals 
+key_kp_equals "key 103" 
+key_kp_comma "key 133" 
 key_numlock "key 83" 
 key_kp_divide "key 84" 
 key_kp_multiply "key 85" 
