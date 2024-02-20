@@ -99,7 +99,7 @@ class Devices:
                 "RUMBLE",
                 "PERIODIC",
                 "GAIN"
-            ],
+            ]
         },
         "nsw-imu": {
             "type": "IMU",
@@ -168,6 +168,6 @@ class Devices:
                     "axis": "Z",
                     "sign": "-",
                 }
-            ],
-        },
+            ]
+        }
     }

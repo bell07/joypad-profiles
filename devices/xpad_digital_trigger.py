@@ -114,6 +114,6 @@ class Devices:
                 "RUMBLE",
                 "PERIODIC",
                 "GAIN"
-            ],
-        },
+            ]
+        }
     }

@@ -67,6 +67,6 @@ class Devices:
                     "axis": "Z",
                     "sign": "-",
                 }
-            ],
+            ]
         }
     }
