@@ -43,7 +43,7 @@ Map = [
     ["IMUGyroscope/Yaw Right", "YAW_RIGHT", "R_YAW_RIGHT"],
 
     ["IMUIR/Enabled"],
-    ["IMUIR/Recenter", "RECORD"],
+    ["IMUIR/Recenter", "QUICK"],
 
     ["Extension"],
     ["Nunchuk/Buttons/C", "TL"],

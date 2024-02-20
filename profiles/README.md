@@ -49,7 +49,7 @@ B | TR2
 1 | NORTH
 2 | EAST
 Shake | WEST
-IMU Recenter | RECORD
+IMU Recenter | QUICK
 
 ## Digger (1983)
 

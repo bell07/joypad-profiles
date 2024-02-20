@@ -7,14 +7,14 @@ class Devices:
             # All keys list, sorted by usual drivers order
             "buttons": [
                 "SOUTH", "EAST", "NORTH", "WEST",
-                "RECORD", "TL", "TR", "TL2", "TR2",
+                "QUICK", "TL", "TR", "TL2", "TR2",
                 "SELECT", "START", "MODE",
                 "THUMBL", "THUMBR",
                 "DPAD_UP", "DPAD_DOWN", "DPAD_LEFT", "DPAD_RIGHT"
             ],
 
             "button_names": {
-                "RECORD": "Z",
+                "QUICK": "Z",
             },
 
             # Keys settings.
