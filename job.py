@@ -31,28 +31,13 @@ seat_list = {
 
 
 class Job:
-    def setup_seat(self, seat_key, seat_info):
-        name = seat_info.get("name")
-        seat = Seat(self, name)
-
-        device_key = seat_info.get("device")
-        if device_key is not None:
-            seat.add_device(device_key, seat, name)
-
-        multi_device = seat_info.get("devices")
-        if multi_device is not None:
-            for device_key, device_name in multi_device.items():
-                seat.add_device(device_key, seat, device_name)
-
-        return seat
-
     def __init__(self):
         self.install = Settings.install
         self.seats = []
 
         if hasattr(Settings, "seat") and Settings.seat == "all":
             for seat_key, seat_info in seat_list.items():
-                self.seats.append(self.setup_seat(seat_key, seat_info))
+                self.seats.append(Seat(seat_info, self))
 
         else:
             # Compose 1 seat by all data
@@ -83,4 +68,4 @@ class Job:
                 else:
                     seat_info["devices"] = d + Settings.devices
 
-            self.seats.append(self.setup_seat(seat_key, seat_info))
+            self.seats.append(Seat(seat_info, self))

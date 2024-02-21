@@ -1,17 +1,18 @@
-from device import Device
-from button import Button
 import importlib
 import os
 
+from button import Button
+from device import Device
+
 
 class Seat:
-    def __init__(self, job, name):
-        self.seat_name = name
+    def __init__(self, seat_info, job):
+        self.seat_name = seat_info.get("name")
         self.job = job
         self.devices = []
 
         self.primary_device = None
-        self.keys = None
+        self.keys = {}
 
         self.profile = None
         self.map = None
@@ -21,23 +22,33 @@ class Seat:
         self.target_file = None
         self.target_file_is_new = None
 
-    def add_device(self, device_key, seat, device_name=None):
+        device_key = seat_info.get("device")
+        if device_key is not None:
+            self.add_device(device_key, self.seat_name)
+
+        multi_device = seat_info.get("devices")
+        if multi_device is not None:
+            for device_key, device_name in multi_device.items():
+                self.add_device(device_key, device_name)
+
+        if self.seat_name is None:
+            self.seat_name = self.primary_device.name
+
+
+    def add_device(self, device_key, device_name=None):
         module = importlib.import_module("devices." + device_key)
         for device_def in module.Devices.devices.values():
-            self.devices.append(Device(device_def, seat, device_name))
+            device = Device(device_def, self, device_name)
+            self.devices.append(device)
 
-    def apply_profile(self, profile, ButtonClass: Button):
-        self.primary_device = None
-        self.keys = {}
-
-        for device in self.devices:
             # Seat primary device name
             if self.primary_device is None:
                 self.primary_device = device
 
-                if self.seat_name is None:
-                    self.seat_name = self.primary_device.name
+    def apply_profile(self, profile, ButtonClass: Button):
+        self.keys = {}
 
+        for device in self.devices:
             # Basic buttons
             buttons = device.definition.get("buttons")
             if buttons is not None:
