@@ -1,6 +1,6 @@
 import os
-from button import Button
 
+from button import Button
 from profiles.dosbox_profiles import \
     digger, \
     tombraider, \
@@ -66,7 +66,13 @@ class Dosbox:
         return parsed_data
 
     def do_config(self, seat, profile, variant):
-        seat.apply_profile(DosboxProfile(profile, variant), DosboxButton)
+        db_profile = DosboxProfile(profile, variant)
+
+        if self.job.install is True and not os.path.isdir(os.path.expanduser(db_profile.InstallDir)):
+            print(f'Path {db_profile.InstallDir} does not exists, skip install')
+            return
+
+        seat.apply_profile(db_profile, DosboxButton)
 
         print("Write " + seat.target_file)
         sf, tf = None, None

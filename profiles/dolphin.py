@@ -1,7 +1,7 @@
-import os
 import configparser
-from button import Button
+import os
 
+from button import Button
 from profiles.dolphin_profiles import GCPad, Horizontal, Nunchuk
 
 # Supported rumble types
@@ -98,8 +98,7 @@ class Dolphin:
             self.DEFCONFIG_PATH = None
             self.GAME_SETTINGS = os.path.join("target", "dolphin-emu", "GameSettings")
 
-        if not os.path.isdir(self.GAME_SETTINGS):
-            os.mkdir(self.GAME_SETTINGS)
+        os.makedirs(self.GAME_SETTINGS, exist_ok=True)
 
     def get_parsed_value(self, seat, config_key, param):
         #  Button string to be mapped

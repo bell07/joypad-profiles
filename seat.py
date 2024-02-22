@@ -34,7 +34,6 @@ class Seat:
         if self.seat_name is None:
             self.seat_name = self.primary_device.name
 
-
     def add_device(self, device_key, device_name=None):
         module = importlib.import_module("devices." + device_key)
         for device_def in module.Devices.devices.values():
@@ -113,7 +112,6 @@ class Seat:
                     button.is_gyroscope = True
                     self.keys[button_key] = button
 
-        # Setup profile
         self.profile = profile
 
         if self.job.install is True:
@@ -128,6 +126,7 @@ class Seat:
                 self.target_file_is_new = True
         else:
             target_dir = os.path.join('target', profile.TargetDir)
+            os.makedirs(target_dir, exist_ok=True)
             self.target_file = os.path.join(target_dir, profile.TargetFile) + "-" + self.seat_name
             self.target_file_is_new = True
 
@@ -153,9 +152,6 @@ class Seat:
                 self.map_formatted = profile.FormattedValues.copy()
             else:
                 self.map_formatted = {}
-
-        if not os.path.isdir(target_dir):
-            os.mkdir(target_dir)
 
     def get_button_name_formatted(self, key, config_key):
         formatted = self.map_formatted.get(key)
