@@ -206,6 +206,10 @@ class Dolphin:
         def_wii = ""
 
         for seat in self.job.seats:
+            if seat.seat_name == "Steam Deck":
+                print("hid-steamdeck not implemented for dolphin beacause it uses not the evdev driver")
+                continue
+
             if profile_name == "GCPad" or profile_name == "all":
                 #  Do GameCube config for the Seat
                 file_content = self.do_config(seat, GCPad)

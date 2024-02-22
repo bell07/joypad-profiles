@@ -19,6 +19,12 @@ seat_list = {
     "nsw-joycons": {
         "device": "nsw-joycons"
     },
+    "hid-steamdeck": {
+      "devices": {
+          "hid-steamdeck": "Steam Deck",
+          "touch_16_10": "FTS3528:00 2808:1015",
+      }
+    },
     "scc-steamdeck": {
         "name": "SCC SteamDeck",
         "devices": {

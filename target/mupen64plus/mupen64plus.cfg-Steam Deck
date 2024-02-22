@@ -1,0 +1,30 @@
+[Input-SDL-Control1]
+version = 2,000000
+mode = 0
+device = 0
+name = "Steam Deck"
+plugged = True
+plugin = 2
+mouse = False
+MouseSensitivity = "2,00,2,00"
+AnalogDeadzone = "4096,4096"
+AnalogPeak = "32768,32768"
+DPad R = "button(19)"
+DPad L = "button(18)"
+DPad D = "button(17)"
+DPad U = "button(16)"
+Start = "button(12)"
+Z Trig = "axis(8-)"
+B Button = "button(5)"
+A Button = "button(3)"
+C Button R = "axis(2+)"
+C Button L = "axis(2-)"
+C Button D = "axis(3+)"
+C Button U = "axis(3-)"
+R Trig = "button(8)"
+L Trig = "button(7)"
+Mempak switch = "button(11)"
+Rumblepak switch = "axis(9-)"
+X Axis = "axis(0-,0+)"
+Y Axis = "axis(1-,1+)"
+
