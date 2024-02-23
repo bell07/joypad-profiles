@@ -54,8 +54,9 @@ class Seat:
                 index = 0
                 for button_key in buttons:
                     button = ButtonClass(button_key, device)
-                    button.index = index
-                    index = index + 1
+                    if device.type == 'joypad':
+                        button.index = index
+                        index = index + 1
 
                     # Map button names
                     button_names = device.definition.get("button_names")

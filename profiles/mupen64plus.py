@@ -1,6 +1,7 @@
 # Mupen64 N64 profile
 
 import configparser
+
 from button import Button
 
 
@@ -81,6 +82,12 @@ class MupenButton(Button):
         super().__init__(name, device)
 
     def get_button_name(self):
+        if self.device.type != 'joypad':
+            print(f'Button {self.name}',
+                  f'from device {self.device.name} type {self.device.type}'
+                  f'not supported in dosbox profile generator')
+            return ''
+
         if self.is_slider is True:
             if self.name[0:4] == "DPAD":
                 return '"hat(0 ' + self.name[5:6].upper() + self.name[6:].lower() + ')"'

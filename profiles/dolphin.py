@@ -41,12 +41,12 @@ DSUClientNames = {
 class DolphinButton(Button):
     def get_button_name(self):
         device = ""
-        device_type = "evdev"
+        dolphin_device_type = "evdev"
 
         if self.device.name != self.device.seat.primary_device.name:
             if self.device.type == "DSUClient":
-                device_type = "DSUClient"
-            device = f"{device_type}/0/{self.device.name}:"
+                dolphin_device_type = "DSUClient"
+            device = f"{dolphin_device_type}/0/{self.device.name}:"
 
         if self.device.type == "DSUClient":
             slider_name = DSUClientNames.get(self.name)

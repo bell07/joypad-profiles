@@ -18,6 +18,11 @@ dpad_map = {
 
 class DosboxButton(Button):
     def get_button_name(self):
+        if self.device.type != 'joypad':
+            print(f'Button {self.name}',
+                  f'from device {self.device.name} type {self.device.type}'
+                  f'not supported in dosbox profile generator')
+            return ''
         name = '"stick_' + str(self.device.js_number)
         dpad_name = dpad_map.get(self.name)
         if dpad_name is not None:
