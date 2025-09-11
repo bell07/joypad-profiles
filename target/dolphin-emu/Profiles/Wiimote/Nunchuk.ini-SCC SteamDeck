@@ -33,6 +33,7 @@ IMUGyroscope/Roll Right = `DSUClient/0/SC-Controller:Gyro Roll Right`
 IMUGyroscope/Yaw Left = `DSUClient/0/SC-Controller:Gyro Yaw Left`
 IMUGyroscope/Yaw Right = `DSUClient/0/SC-Controller:Gyro Yaw Right`
 IMUIR/Enabled = False
+IMUIR/Recenter = `evdev/0/SCController Keyboard:Z`
 Extension = Nunchuk
 Nunchuk/Buttons/C = TL
 Nunchuk/Buttons/Z = `Full Axis 2+`

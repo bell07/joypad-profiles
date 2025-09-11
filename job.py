@@ -30,7 +30,8 @@ seat_list = {
         "devices": {
             "xpad": "Microsoft X-Box 360 pad",
             "touch_16_10": "FTS3528:00 2808:1015",
-            "cemuhook": "SC-Controller"
+            "cemuhook": "SC-Controller",
+            "scc-steamdeck": "SCController Keyboard"
         }
     }
 }
