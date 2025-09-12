@@ -1,5 +1,7 @@
+from __future__ import annotations
+
 from seat import Seat
-from settings import Settings
+import yaml
 
 seat_list = {
     "gpdwin2": {
@@ -39,40 +41,42 @@ seat_list = {
 
 class Job:
     def __init__(self):
-        self.install = Settings.install
-        self.seats = []
 
-        if hasattr(Settings, "seat") and Settings.seat == "all":
-            for seat_key, seat_info in seat_list.items():
+        with open("config.yaml", 'r') as file:
+            self.config = yaml.safe_load(file)
+
+        self.install: bool = self.config.get("install") or False
+        self.seats: list[Seat] = []
+        if self.config.get("all_seats"):
+            for seat_key in seat_list:
+                self.seats.append(Seat(seat_list[seat_key], self))
+
+        config_seats = self.config.get("seats")
+        if config_seats:
+            for config_seat in config_seats:
+                seat_key = config_seat.get("seat")
+                if seat_key:
+                    seat_info = seat_list[seat_key].copy()
+                else:
+                    seat_info = {}
+                
+                seat_name = config_seat.get("seat_name")
+                if seat_name:
+                    seat_info["name"] = seat_name
+
+                config_devices = config_seat.get("devices")
+                if config_devices:
+                    for config_device in config_devices:
+                        device = config_device.get("device")
+                        assert device
+                        device_name = config_device.get("device_name")
+                        if not device_name:
+                            seat_info["device"] = device
+                            break
+
+                        if not seat_info.get("devices"):
+                            seat_info["devices"] = {}
+                        seat_info["devices"][device] = device_name
+
                 self.seats.append(Seat(seat_info, self))
 
-        else:
-            # Compose 1 seat by all data
-            seat_key = None
-            seat_info = {}
-
-            if hasattr(Settings, "name"):
-                seat_info["name"] = Settings.name
-
-            if hasattr(Settings, "seat"):
-                seat_key = Settings.seat
-                seat_info = seat_list[Settings.seat]
-
-            if hasattr(Settings, "device_name"):
-                d = seat_info.get("devices")
-                if d is None:
-                    seat_info["devices"] = {Settings.device: Settings.device_name}
-                else:
-                    seat_info["devices"] = d + {Settings.device: Settings.device_name}
-
-            elif hasattr(Settings, "device"):
-                seat_info["device"] = Settings.device
-
-            if hasattr(Settings, "devices"):
-                d = seat_info.get("devices")
-                if d is None:
-                    seat_info["devices"] = Settings.devices
-                else:
-                    seat_info["devices"] = d + Settings.devices
-
-            self.seats.append(Seat(seat_info, self))

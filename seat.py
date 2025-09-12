@@ -1,5 +1,6 @@
 import importlib
 import os
+from typing import Type
 
 from button import Button
 from device import Device
@@ -7,17 +8,17 @@ from device import Device
 
 class Seat:
     def __init__(self, seat_info, job):
-        self.seat_name = seat_info.get("name")
+        self.seat_name: str = seat_info.get("name")
         self.job = job
         self.devices = []
 
-        self.primary_device = None
+        self.primary_device: Device
         self.keys = {}
 
         self.profile = None
         self.map = None
-        self.map_fixed = None
-        self.map_formatted = None
+        self.map_fixed: dict = {}
+        self.map_formatted: dict[str, str] = {}
 
         self.target_file = None
         self.target_file_is_new = None
@@ -31,6 +32,7 @@ class Seat:
             for device_key, device_name in multi_device.items():
                 self.add_device(device_key, device_name)
 
+        assert self.primary_device
         if self.seat_name is None:
             self.seat_name = self.primary_device.name
 
@@ -41,10 +43,10 @@ class Seat:
             self.devices.append(device)
 
             # Seat primary device name
-            if self.primary_device is None:
+            if len(self.devices) == 1:
                 self.primary_device = device
 
-    def apply_profile(self, profile, ButtonClass: Button):
+    def apply_profile(self, profile, ButtonClass: Type[Button]):
         self.keys = {}
 
         for device in self.devices:
@@ -54,7 +56,7 @@ class Seat:
                 index = 0
                 for button_key in buttons:
                     button = ButtonClass(button_key, device)
-                    if device.type == 'joypad':
+                    if device.type == "joypad":
                         button.index = index
                         index = index + 1
 
@@ -126,33 +128,31 @@ class Seat:
             else:
                 self.target_file_is_new = True
         else:
-            target_dir = os.path.join('target', profile.TargetDir)
+            target_dir = os.path.join("target", profile.TargetDir)
             os.makedirs(target_dir, exist_ok=True)
-            self.target_file = os.path.join(target_dir, profile.TargetFile) + "-" + self.seat_name
+            self.target_file = (
+                os.path.join(target_dir, profile.TargetFile) + "-" + self.seat_name
+            )
             self.target_file_is_new = True
 
         if hasattr(profile, "get_profile_for_seat"):
             profile_data = profile.get_profile_for_seat(self)
             self.map = profile_data.get("map")
-            self.map_fixed = profile_data.get("map_fixed")
-            self.map_formatted = profile_data.get("map_formatted")
+            self.map_fixed = profile_data.get("map_fixed") or {}
+            self.map_formatted = profile_data.get("map_formatted") or {}
         else:
-            self.map, self.map_fixed, self.map_formatted = None, None, None
+            self.map, self.map_fixed, self.map_formatted = None, {}, {}
 
         if self.map is None:
             self.map = profile.Map.copy()
 
-        if self.map_fixed is None:
+        if not self.map_fixed:
             if hasattr(profile, "FixedValues"):
                 self.map_fixed = profile.FixedValues.copy()
-            else:
-                self.map_fixed = {}
 
-        if self.map_formatted is None:
+        if not self.map_formatted:
             if hasattr(profile, "FormattedValues"):
                 self.map_formatted = profile.FormattedValues.copy()
-            else:
-                self.map_formatted = {}
 
     def get_button_name_formatted(self, key, config_key):
         formatted = self.map_formatted.get(key)
@@ -160,7 +160,7 @@ class Seat:
             fstring = formatted[0]
             fvalues = []
             for i in range(1, len(formatted)):
-                fkey = formatted[i]
+                fkey: str = formatted[i]
                 value = self.get_button_name(fkey, config_key)
                 if value is None:
                     print(f"wrong parameter {fkey} for {key}")
@@ -168,7 +168,7 @@ class Seat:
                 fvalues.append(value)
             return fstring.format(*fvalues)
 
-    def get_button_name(self, key: None, config_key: None):
+    def get_button_name(self, key=None, config_key=None):
         button_name = None
         if key is not None:
             button_name = self.map_fixed.get(key)

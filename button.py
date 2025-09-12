@@ -1,12 +1,12 @@
 class Button:
     def __init__(self, name, device):
         self.name = name
-        self.index = None
+        self.index: int = 0
         self.device = device
 
-        self.is_slider = False
+        self.is_slider: bool = False
         self.axis = None
-        self.axis_number = None
+        self.axis_number: int | None = None
         self.sign = None
         self.analog = None
         self.full = None
