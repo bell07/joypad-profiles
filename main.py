@@ -6,8 +6,8 @@ from job import Job
 from profiles.dolphin import Dolphin
 from profiles.dosbox import Dosbox
 
-module = "help"
-profile = ""
+module: str = "help"
+profile: str = "all"
 if len(sys.argv) > 1:
     module = sys.argv[1]
 if len(sys.argv) > 2:
