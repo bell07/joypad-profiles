@@ -1,8 +1,16 @@
+from __future__ import annotations
+
 import configparser
 import os
+from typing import TYPE_CHECKING
 
 from button import Button
+from profiles import Profile
 from profiles.dolphin_profiles import GCPad, Horizontal, Nunchuk
+
+if TYPE_CHECKING:
+    from job import Job
+    from seat import Seat
 
 # Supported rumble types
 Rumble = {
@@ -39,9 +47,9 @@ DSUClientNames = {
 
 
 class DolphinButton(Button):
-    def get_button_name(self):
-        device = ""
-        dolphin_device_type = "evdev"
+    def get_button_name(self) -> str | None:
+        device: str = ""
+        dolphin_device_type: str = "evdev"
 
         if self.device.name != self.device.seat.primary_device.name:
             if self.device.type == "DSUClient":
@@ -56,15 +64,15 @@ class DolphinButton(Button):
                 return f"`{device}{slider_name}`"
 
         if self.is_accelerometer is True:
-            slider_name = "Accel " + self.axis + self.sign
+            slider_name = f"Accel {self.axis}{self.sign}"
             return f"`{device}{slider_name}`"
 
         elif self.is_gyroscope is True:
-            slider_name = "Gyro " + self.axis + self.sign
+            slider_name = f"Gyro {self.axis}{self.sign}"
             return f"`{device}{slider_name}`"
 
         elif self.is_slider is True:
-            slider_name = "Axis " + str(self.axis_number) + self.sign
+            slider_name = f"Axis {str(self.axis_number)}{self.sign}"
             if self.full is True:
                 slider_name = "Full " + slider_name
             slider_name = f"`{device}{slider_name}`"
@@ -86,21 +94,24 @@ class DolphinButton(Button):
             return button_name
 
 
-class Dolphin:
-    def __init__(self, job):
-        self.job = job
+class Dolphin(Profile):
+    def __init__(self, job: Job):
+        super().__init__(job)
         if job.install is True:
             # Default settings and Game settings target dir
-            self.DEFCONFIG_PATH = os.path.expanduser('~/.config/dolphin-emu')
-            self.GAME_SETTINGS = os.path.expanduser("~/.local/share/dolphin-emu/GameSettings")
+            self.DEFCONFIG_PATH = os.path.expanduser("~/.config/dolphin-emu")
+            self.GAME_SETTINGS = os.path.expanduser(
+                "~/.local/share/dolphin-emu/GameSettings"
+            )
         else:
             # GameSettings in target folder
             self.DEFCONFIG_PATH = None
             self.GAME_SETTINGS = os.path.join("target", "dolphin-emu", "GameSettings")
-
         os.makedirs(self.GAME_SETTINGS, exist_ok=True)
 
-    def get_parsed_value(self, seat, config_key, param):
+    def get_parsed_value(
+        self, seat: Seat, config_key: str, param: None | str | list
+    ) -> str | None:
         #  Button string to be mapped
         if param is None:
             key_name = seat.get_button_name(param, config_key)
@@ -125,20 +136,25 @@ class Dolphin:
                     if parsed_data is None:
                         parsed_data = parsed_element
                     else:
-                        parsed_data = parsed_data + ' | ' + parsed_element
+                        parsed_data = parsed_data + " | " + parsed_element
             return parsed_data
 
     @staticmethod
-    def adjust_rumble(seat, map_fixed):
-        rumble_name = None
+    def adjust_rumble(seat: Seat, map_fixed: dict) -> None:
         for rumble in Rumble:
             if seat.keys.get(rumble):
-                rumble_name = Rumble.get(rumble)
+                map_fixed["Rumble/Motor"] = Rumble.get(rumble)
                 break
-        map_fixed["Rumble/Motor"] = rumble_name
 
-    def get_profile(self, seat):
-        data = "Device = " + "evdev/" + str(seat.primary_device.js_number) + "/" + seat.primary_device.name + "\n"
+    def get_profile(self, seat: Seat) -> str:
+        data = (
+            "Device = "
+            + "evdev/"
+            + str(seat.primary_device.js_number)
+            + "/"
+            + seat.primary_device.name
+            + "\n"
+        )
 
         self.adjust_rumble(seat, seat.map_fixed)
 
@@ -146,8 +162,11 @@ class Dolphin:
             for key in VirtualPointer:
                 seat.map_fixed[key] = VirtualPointer[key]
 
-        if seat.keys.get("ACCEL_UP") is not None or seat.keys.get("L_ACCEL_UP") is not None \
-                or seat.keys.get("R_ACCEL_UP") is not None:
+        if (
+            seat.keys.get("ACCEL_UP") is not None
+            or seat.keys.get("L_ACCEL_UP") is not None
+            or seat.keys.get("R_ACCEL_UP") is not None
+        ):
             # If Touchscreen available, the device is a handheald. IMUIR emulation is designed for joypad + TV
             if seat.keys.get("TOUCH"):
                 seat.map_fixed["IMUIR/Enabled"] = "False"
@@ -167,7 +186,7 @@ class Dolphin:
 
         return data
 
-    def do_config(self, seat, profile):
+    def do_config(self, seat: Seat, profile):
         seat.apply_profile(profile, DolphinButton)
         file_content = self.get_profile(seat)
 
@@ -190,13 +209,13 @@ class Dolphin:
 
                 target_profile = profile.TargetFile[0:-4]
                 section["WiimoteProfile1"] = target_profile
-                with open(game_config_file, 'w') as configfile:
+                with open(game_config_file, "w") as configfile:
                     print(f"update {game_config_file} for {target_profile}")
                     game_config.write(configfile)
 
         return file_content  # Return to concatenate into default config
 
-    def do_dolphin(self, profile_name):
+    def do_dolphin(self, profile_name: str):
 
         if profile_name == "help":
             print("Possible dolphin parameter: all, GCPad, Horizontal, Nunchuk")
@@ -207,7 +226,9 @@ class Dolphin:
 
         for seat in self.job.seats:
             if seat.seat_name == "Steam Deck":
-                print("hid-steamdeck not implemented for dolphin beacause it uses not the evdev driver")
+                print(
+                    "hid-steamdeck not implemented for dolphin beacause it uses not the evdev driver"
+                )
                 continue
 
             if profile_name == "GCPad" or profile_name == "all":
@@ -241,4 +262,6 @@ class Dolphin:
 
             for device in seat.devices:
                 if device.type == "DSUClient":
-                    print(f'>>> Please configure DSU Client "{device.name}" in Dolphin settings')
+                    print(
+                        f'>>> Please configure DSU Client "{device.name}" in Dolphin settings'
+                    )

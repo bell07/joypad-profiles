@@ -1,19 +1,27 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from device import Device
+
+
 class Button:
-    def __init__(self, name, device):
-        self.name = name
+    def __init__(self, name: str, device: Device):
+        self.name: str = name
         self.index: int = 0
-        self.device = device
+        self.device: Device = device
 
         self.is_slider: bool = False
-        self.axis = None
+        self.axis: int | None = None
         self.axis_number: int | None = None
         self.sign = None
         self.analog = None
         self.full = None
-        self.is_rumble = False
-        self.is_accelerometer = False
-        self.is_gyroscope = False
-        self.calibrate = 1
+        self.is_rumble: bool = False
+        self.is_accelerometer: bool = False
+        self.is_gyroscope: bool = False
+        self.calibrate: int = 1
 
     def set_slider(self, slider):
         self.is_slider = True

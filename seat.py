@@ -1,42 +1,48 @@
+from __future__ import annotations
+
 import importlib
 import os
-from typing import Type
+from typing import TYPE_CHECKING, Any, Type
 
 from button import Button
 from device import Device
 
+if TYPE_CHECKING:
+    from job import Job
+
 
 class Seat:
-    def __init__(self, seat_info, job):
-        self.seat_name: str = seat_info.get("name")
-        self.job = job
-        self.devices = []
+    def __init__(self, seat_info: dict[str, Any], job: Job):
+
+        self.job: Job = job
+        self.devices: list[Device] = []
 
         self.primary_device: Device
-        self.keys = {}
+        self.keys: dict[str, Button] = {}
 
-        self.profile = None
-        self.map = None
+        self.profile = None  # TODO Profile typing
+        self.map: list[list[str]] = []
         self.map_fixed: dict = {}
         self.map_formatted: dict[str, str] = {}
 
-        self.target_file = None
-        self.target_file_is_new = None
+        self.target_file: str
+        self.target_file_is_new: bool
+
+        seat_name: str | None = seat_info.get("name")
 
         device_key = seat_info.get("device")
-        if device_key is not None:
-            self.add_device(device_key, self.seat_name)
+        if device_key:
+            self.add_device(device_key, seat_name)
 
-        multi_device = seat_info.get("devices")
-        if multi_device is not None:
+        multi_device: dict[str, str] | None = seat_info.get("devices")
+        if multi_device:
             for device_key, device_name in multi_device.items():
                 self.add_device(device_key, device_name)
 
         assert self.primary_device
-        if self.seat_name is None:
-            self.seat_name = self.primary_device.name
+        self.seat_name: str = seat_name or self.primary_device.name
 
-    def add_device(self, device_key, device_name=None):
+    def add_device(self, device_key, device_name=None) -> None:
         module = importlib.import_module("devices." + device_key)
         for device_def in module.Devices.devices.values():
             device = Device(device_def, self, device_name)
@@ -137,13 +143,13 @@ class Seat:
 
         if hasattr(profile, "get_profile_for_seat"):
             profile_data = profile.get_profile_for_seat(self)
-            self.map = profile_data.get("map")
+            self.map = profile_data.get("map") or []
             self.map_fixed = profile_data.get("map_fixed") or {}
             self.map_formatted = profile_data.get("map_formatted") or {}
         else:
-            self.map, self.map_fixed, self.map_formatted = None, {}, {}
+            self.map, self.map_fixed, self.map_formatted = [], {}, {}
 
-        if self.map is None:
+        if len(self.map) == 0:
             self.map = profile.Map.copy()
 
         if not self.map_fixed:
@@ -154,7 +160,7 @@ class Seat:
             if hasattr(profile, "FormattedValues"):
                 self.map_formatted = profile.FormattedValues.copy()
 
-    def get_button_name_formatted(self, key, config_key):
+    def get_button_name_formatted(self, key: str, config_key: str | None) -> str | None:
         formatted = self.map_formatted.get(key)
         if formatted is not None:
             fstring = formatted[0]
@@ -168,7 +174,9 @@ class Seat:
                 fvalues.append(value)
             return fstring.format(*fvalues)
 
-    def get_button_name(self, key=None, config_key=None):
+    def get_button_name(
+        self, key: str | None = None, config_key: str | None = None
+    ) -> str | None:
         button_name = None
         if key is not None:
             button_name = self.map_fixed.get(key)

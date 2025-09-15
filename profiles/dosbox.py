@@ -1,10 +1,15 @@
+from __future__ import annotations
+
 import os
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from seat import Seat
+    from job import Job
 
 from button import Button
-from profiles.dosbox_profiles import \
-    digger, \
-    tombraider, \
-    turrican2
+from profiles import Profile
+from profiles.dosbox_profiles import digger, tombraider, turrican2
 
 DOSGAMES_PATH = "~/Games/DOS/"
 
@@ -18,24 +23,33 @@ dpad_map = {
 
 class DosboxButton(Button):
     def get_button_name(self):
-        if self.device.type != 'joypad':
-            print(f'Button {self.name}',
-                  f'from device {self.device.name} type {self.device.type}'
-                  f'not supported in dosbox profile generator')
-            return ''
+        if self.device.type != "joypad":
+            print(
+                f"Button {self.name}",
+                f"from device {self.device.name} type {self.device.type}"
+                f"not supported in dosbox profile generator",
+            )
+            return ""
         name = '"stick_' + str(self.device.js_number)
         dpad_name = dpad_map.get(self.name)
         if dpad_name is not None:
             return name + dpad_name
 
         if self.is_slider is True:
-            return name + ' axis ' + str(self.axis_number) + " " + ("0" if self.sign == '-' else "1") + '"'
+            return (
+                name
+                + " axis "
+                + str(self.axis_number)
+                + " "
+                + ("0" if self.sign == "-" else "1")
+                + '"'
+            )
         else:
-            return name + ' button ' + str(self.index) + '"'
+            return name + " button " + str(self.index) + '"'
 
 
 class DosboxProfile:
-    def __init__(self, profile, variant):
+    def __init__(self, profile, variant: str):
         self.Map = profile.Map
 
         if variant == "dosbox":
@@ -51,12 +65,9 @@ class DosboxProfile:
             self.InstallFile = "dosbox-x-mapper.map"
 
 
-class Dosbox:
-    def __init__(self, job):
-        self.job = job
-
+class Dosbox(Profile):
     @staticmethod
-    def get_parsed_value(seat, config_key, param):
+    def get_parsed_value(seat, config_key: str, param: list) -> str | None:
         parsed_data = None
         for button_key in param:
             parsed_element = seat.get_button_name(button_key, config_key)
@@ -67,14 +78,16 @@ class Dosbox:
                 if parsed_data is None:
                     parsed_data = parsed_element
                 else:
-                    parsed_data = parsed_data + ' ' + parsed_element
+                    parsed_data = parsed_data + " " + parsed_element
         return parsed_data
 
-    def do_config(self, seat, profile, variant):
+    def do_config(self, seat, profile, variant) -> None:
         db_profile = DosboxProfile(profile, variant)
 
-        if self.job.install is True and not os.path.isdir(os.path.expanduser(db_profile.InstallDir)):
-            print(f'Path {db_profile.InstallDir} does not exists, skip install')
+        if self.job.install is True and not os.path.isdir(
+            os.path.expanduser(db_profile.InstallDir)
+        ):
+            print(f"Path {db_profile.InstallDir} does not exists, skip install")
             return
 
         seat.apply_profile(db_profile, DosboxButton)
@@ -82,11 +95,25 @@ class Dosbox:
         print("Write " + seat.target_file)
         sf, tf = None, None
         if variant == "dosbox":
-            sf = open(os.path.join(os.path.dirname(__file__), "dosbox_profiles", "mapper-dosbox-sdl2-0.80.1.map"))
-            tf = open(seat.target_file, 'w')
+            sf = open(
+                os.path.join(
+                    os.path.dirname(__file__),
+                    "dosbox_profiles",
+                    "mapper-dosbox-sdl2-0.80.1.map",
+                )
+            )
+            tf = open(seat.target_file, "w")
         elif variant == "dosbox-x":
-            sf = open(os.path.join(os.path.dirname(__file__), "dosbox_profiles", "mapper-dosbox-x-sdl2-2023.09.01.map"))
-            tf = open(seat.target_file, 'w')
+            sf = open(
+                os.path.join(
+                    os.path.dirname(__file__),
+                    "dosbox_profiles",
+                    "mapper-dosbox-x-sdl2-2023.09.01.map",
+                )
+            )
+            tf = open(seat.target_file, "w")
+        else:
+            raise ValueError(f"unknown variant {variant}")
 
         map_dct = {}
         for map_line in seat.map:
@@ -110,10 +137,10 @@ class Dosbox:
         sf.close()
         tf.close()
 
-    def do_dosbox(self, profile_name):
+    def do_dosbox(self, profile_name: str) -> None:
         if profile_name == "help":
             print("Possible dosbox parameter: all, digger, tombraider, turrican2")
-            exit
+            return
 
         for seat in self.job.seats:
             if profile_name == "digger" or profile_name == "all":
