@@ -15,7 +15,8 @@ All xbox controller pictures are derivative work (added labels) of
 - Checkout / unpack the joypad-profiles
 - use the provided files in "target" folder
 - or:
-- copy settings.py.template to settings.py and adjust settings, enable install parameter
+- look into config.yaml.examples for examples and configure your Gaming seat
+- enable install parameter to allow installation to the emulators folder
 - run the `python main.py module profile`
   - `python main.py all all` generates all supported files
 

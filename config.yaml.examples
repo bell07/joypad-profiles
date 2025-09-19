@@ -1,0 +1,39 @@
+install: false
+
+seats:
+  - seat: "GPD Win 2 X-Box Controller" # "GPD Win 2"
+    devices:
+      - device: "xpad_digital_trigger"
+        device_name: "GPD Win 2 X-Box Controller"
+      - device: "touch_16_9"
+        device_name: "Goodix Capacitive TouchScreen"
+
+  - seat: "Logitech Gamepad F710"
+    devices:
+      - device: "xpad"
+        device_name: "Logitech Gamepad F710"
+
+  - seat: "Nintendo Switch Pro Controller"
+    devices:
+      - device: "nsw-pro"
+
+  - seat: "Nintendo Switch Combined Joy-Cons"
+    devices:
+      - device: "nsw-joycons"
+
+  - seat: "Steam Deck"
+    devices:
+      - device: "hid-steamdeck"
+      - device: "touch_16_10"
+        device_name: "FTS3528:00 2808:1015"
+
+  - seat: "SCC SteamDeck" # "Steam Deck using SC Controller"
+    devices:
+      - device: "xpad"
+        device_name: "Microsoft X-Box 360 pad"
+      - device: "touch_16_10"
+        device_name: "FTS3528:00 2808:1015"
+      - device: "cemuhook"
+        device_name: "SC-Controller"
+      - device: "scc-steamdeck"
+        device_name: "SCController Keyboard"

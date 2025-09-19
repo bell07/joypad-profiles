@@ -12,8 +12,7 @@ if TYPE_CHECKING:
 
 
 class Seat:
-    def __init__(self, seat_info: dict[str, Any], job: Job):
-
+    def __init__(self, config_seat: dict[str, Any], job: Job):
         self.job: Job = job
         self.devices: list[Device] = []
 
@@ -28,19 +27,14 @@ class Seat:
         self.target_file: str
         self.target_file_is_new: bool
 
-        seat_name: str | None = seat_info.get("name")
+        self.seat_name: str = config_seat["seat"]
 
-        device_key = seat_info.get("device")
-        if device_key:
-            self.add_device(device_key, seat_name)
+        for config_device in config_seat["devices"]:
+            device_key: str = config_device["device"]
+            device_name: str | None = config_device.get("device_name")
+            self.add_device(device_key, device_name)
 
-        multi_device: dict[str, str] | None = seat_info.get("devices")
-        if multi_device:
-            for device_key, device_name in multi_device.items():
-                self.add_device(device_key, device_name)
-
-        assert self.primary_device
-        self.seat_name: str = seat_name or self.primary_device.name
+        self.primary_device = self.devices[0]
 
     def add_device(self, device_key, device_name=None) -> None:
         module = importlib.import_module("devices." + device_key)
@@ -48,11 +42,7 @@ class Seat:
             device = Device(device_def, self, device_name)
             self.devices.append(device)
 
-            # Seat primary device name
-            if len(self.devices) == 1:
-                self.primary_device = device
-
-    def apply_profile(self, profile, ButtonClass: Type[Button]):
+    def apply_profile(self, profile, ButtonClass: Type[Button]):  # TODO type profile
         self.keys = {}
 
         for device in self.devices:
