@@ -51,6 +51,4 @@ dosbox + dosbox-x | digger | Digger (1983)
 dosbox + dosbox-x | tombraider | Tomb Raider 1 (1996)
 dosbox + dosbox-x | turrican2 | Turrican II: The Final Fight (1995)
 | |
-mupen64plus | [mupen64plus](profiles/mupen64plus.svg) | All games
-
 Detailed key mappings list can be found in [Key mapping overview](profiles/README.md)

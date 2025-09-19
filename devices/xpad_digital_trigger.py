@@ -1,6 +1,6 @@
 class Devices:
     devices = {
-        "gpdwin2": {
+        "xpad_digital_trigger": {
             "device_type": "joypad",
 
             # All keys list, sorted by usual drivers order

@@ -14,7 +14,7 @@ if len(sys.argv) > 2:
     profile = sys.argv[2]
 
 if module == "help":
-    print("Possible parameter: all dolphin dosbox mupen64")
+    print("Possible parameter: all dolphin dosbox")
     exit()
 
 job = Job()
