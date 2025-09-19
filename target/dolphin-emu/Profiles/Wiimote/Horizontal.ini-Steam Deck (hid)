@@ -1,0 +1,27 @@
+[Profile]
+Device = evdev/0/Steam Deck
+Buttons/A = WEST | TR | tap(`evdev/0/FTS3528:00 2808:1015:TOUCH`,0.5)
+Buttons/B = TL
+Buttons/1 = NORTH
+Buttons/2 = SOUTH
+Buttons/- = SELECT
+Buttons/+ = START
+Buttons/Home = MODE
+IR/Auto-Hide = True
+IR/Up = `Axis 1-` | (`evdev/0/FTS3528:00 2808:1015:Axis 0+` * 1.1111)
+IR/Down = `Axis 1+` | (`evdev/0/FTS3528:00 2808:1015:Axis 0-` * 1.1111)
+IR/Left = `Axis 0-` | (`evdev/0/FTS3528:00 2808:1015:Axis 1-` * 0.75)
+IR/Right = `Axis 0+` | (`evdev/0/FTS3528:00 2808:1015:Axis 1+` * 0.75)
+Tilt/Forward = `Axis 2-` | `Full Axis 8-`
+Tilt/Backward = `Axis 2+` | `Full Axis 9-`
+Tilt/Left = `Axis 3+`
+Tilt/Right = `Axis 3-`
+Shake/X = TR
+Shake/Y = TR
+Shake/Z = TR
+Rumble/Motor = Triangle
+D-Pad/Up = DPAD_LEFT
+D-Pad/Down = DPAD_RIGHT
+D-Pad/Left = DPAD_DOWN
+D-Pad/Right = DPAD_UP
+IMUIR/Enabled = False

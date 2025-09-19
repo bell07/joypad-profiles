@@ -1,7 +1,7 @@
 install: false
 
 seats:
-  - seat: "GPD Win 2 X-Box Controller" # "GPD Win 2"
+  - seat: "GPD Win 2"
     devices:
       - device: "xpad_digital_trigger"
         device_name: "GPD Win 2 X-Box Controller"
@@ -21,13 +21,13 @@ seats:
     devices:
       - device: "nsw-joycons"
 
-  - seat: "Steam Deck"
+  - seat: "Steam Deck (hid)"
     devices:
       - device: "hid-steamdeck"
       - device: "touch_16_10"
         device_name: "FTS3528:00 2808:1015"
 
-  - seat: "SCC SteamDeck" # "Steam Deck using SC Controller"
+  - seat: "Steam Deck (SC Controller)"
     devices:
       - device: "xpad"
         device_name: "Microsoft X-Box 360 pad"
