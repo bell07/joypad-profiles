@@ -137,7 +137,7 @@ class Dosbox(Profile):
         sf.close()
         tf.close()
 
-    def do_dosbox(self, profile_name: str) -> None:
+    def run(self, profile_name: str) -> None:
         if profile_name == "help":
             print("Possible dosbox parameter: all, digger, tombraider, turrican2")
             return

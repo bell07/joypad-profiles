@@ -215,8 +215,7 @@ class Dolphin(Profile):
 
         return file_content  # Return to concatenate into default config
 
-    def do_dolphin(self, profile_name: str):
-
+    def run(self, profile_name: str) -> None:
         if profile_name == "help":
             print("Possible dolphin parameter: all, GCPad, Horizontal, Nunchuk")
             return

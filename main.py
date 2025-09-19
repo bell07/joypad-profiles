@@ -19,7 +19,7 @@ if module == "help":
 
 job = Job()
 if module == "dolphin" or module == "all":
-    Dolphin(job).do_dolphin(profile)
+    Dolphin(job).run(profile)
 
 if module == "dosbox" or module == "all":
-    Dosbox(job).do_dosbox(profile)
+    Dosbox(job).run(profile)
